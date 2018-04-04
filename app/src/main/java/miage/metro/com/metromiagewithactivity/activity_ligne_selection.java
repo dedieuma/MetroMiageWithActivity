@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -27,6 +29,13 @@ public class activity_ligne_selection extends AppCompatActivity {
         String[] ressources= getResources().getStringArray(R.array.test_fill_list);
         ArrayAdapter aa = new ArrayAdapter(this, R.layout.listview_selection, new ArrayList<String>(Arrays.asList(ressources)));
         ligne_liste.setAdapter(aa);
+
+        ligne_liste.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
+                Log.i("OK", "OK !");
+            }
+           });
 
         /*
         if (b != null)
