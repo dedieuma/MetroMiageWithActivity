@@ -5,19 +5,30 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
-public class Activity1 extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class activity_ligne_selection extends AppCompatActivity {
 
     int counterClick = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity1);
+        setContentView(R.layout.layout_ligne_selection);
 
         Bundle b = getIntent().getExtras();
 
+        ListView ligne_liste = (ListView) findViewById(R.id.listview_selection_ligne);
+        String[] ressources= getResources().getStringArray(R.array.test_fill_list);
+        ArrayAdapter aa = new ArrayAdapter(this, R.layout.listview_selection, new ArrayList<String>(Arrays.asList(ressources)));
+        ligne_liste.setAdapter(aa);
+
+        /*
         if (b != null)
             counterClick = b.getInt("counter")+1;
         TextView txt = (TextView) findViewById(R.id.textView1);
@@ -37,7 +48,7 @@ public class Activity1 extends AppCompatActivity {
             }
         });
 
-        final Intent i = new Intent(this, Activity2.class);
+        final Intent i = new Intent(this, activity_arret_selection.class);
 
 
         Button b2 = (Button) findViewById(R.id.button_go_to_3);
@@ -49,11 +60,11 @@ public class Activity1 extends AppCompatActivity {
                 i.putExtras(bun);
                 startActivityForResult(i, 3);
             }
-        });
+        });*/
     }
 
 
-    @Override
+   /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == 3) {
             if(resultCode == Activity.RESULT_OK){
@@ -69,5 +80,5 @@ public class Activity1 extends AppCompatActivity {
                 //Write your code if there's no result
             }
         }
-    }
+    }*/
 }

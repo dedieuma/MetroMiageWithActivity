@@ -16,29 +16,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Intent i = new Intent(this, Activity1.class);
+        final Intent i = new Intent(this, activity_ligne_selection.class);
 
-
-        Button but = (Button) findViewById(R.id.button2);
+        Button but = (Button) findViewById(R.id.button_tram);
         but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle b = new Bundle();
                 b.putInt("counter", counterClick);
                 i.putExtras(b);
-                startActivityForResult(i, 2);
+                startActivityForResult(i, 1);
             }
         });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        Log.i("activityResult", "OUI");
-        if (requestCode == 2) {
+        //Log.i("activityResult", "OUI");
+        if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                counterClick = data.getIntExtra("counterClickResult", -2)+1;
-
-
+                //counterClick = data.getIntExtra("counterClickResult", -2)+1;
 
             }
             if (resultCode == Activity.RESULT_CANCELED) {

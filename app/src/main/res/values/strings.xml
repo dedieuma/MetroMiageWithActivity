@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MetroMiageWithActivity</string>
+    <string name="ligne_selection">Sélectionnez votre ligne</string>
 </resources>
