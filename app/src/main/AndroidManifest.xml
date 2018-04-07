@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="miage.metro.com.metromiagewithactivity">
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -18,6 +19,8 @@
         </activity>
         <activity android:name=".activity_ligne_selection" />
         <activity android:name=".activity_arret_selection"></activity>
+        <activity android:name=".Activity_Direction_Selection"></activity>
+        <activity android:name=".Activity_Show_Stoptimes"></activity>
     </application>
 
 </manifest>

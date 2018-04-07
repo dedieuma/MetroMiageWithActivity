@@ -1,15 +1,16 @@
-package miage.metro.com.metromiagewithactivity;
+package API;
 
 /**
  * Created by Andréas on 05/04/2018.
  */
 
 
-
         import com.google.gson.annotations.Expose;
         import com.google.gson.annotations.SerializedName;
 
-public class Routes {
+        import java.io.Serializable;
+
+public class Route implements Serializable{
 
     @SerializedName("id")
     @Expose
