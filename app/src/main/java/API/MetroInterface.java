@@ -17,8 +17,8 @@ public interface MetroInterface {
     Call<List<Route>> getRoutes();
 
     @GET("api/routers/default/index/routes/{name}/clusters")
-    Call<List<Arret>> getArrets(@Path("name") String name);
+    Call<List<Arret>> getArrets(@Path(value = "name", encoded = true) String name);
 
     @GET("api/routers/default/index/clusters/{name}/stoptimes")
-    Call<List<StopTime>> getStopTimes(@Path("name") String name);
+    Call<List<StopTime>> getStopTimes(@Path(value = "name", encoded = true) String name);
 }

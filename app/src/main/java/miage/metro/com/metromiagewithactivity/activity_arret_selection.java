@@ -70,7 +70,7 @@ public class activity_arret_selection extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Arret>> call, Throwable t) {
-                Log.e("ligne_sel fail", t.getMessage());
+                Log.e("arret_sel fail", t.getMessage());
             }
         });
 

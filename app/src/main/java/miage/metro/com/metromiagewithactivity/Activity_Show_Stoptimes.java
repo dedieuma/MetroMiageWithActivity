@@ -57,38 +57,19 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
                     final List<StopTime> stopTimes = treatment.getStopTime(response.body(), currentRoute.getShortName(), choiceDirection);
 
                     TextView text_time = (TextView) findViewById(R.id.text_next_time);
-                    String tmpPrime = ""+stopTimes.get(0).getTimes().get(0).getRealtimeDeparture();
                     text_time.setText(""+stopTimes.get(0).getTimes().get(0).getRealtimeDeparture());
-
-
-                    /*ListView ligne_liste = (ListView) findViewById(R.id.listview_selection_ligne);
-                    ArrayAdapter aa = new ArrayAdapter(getBaseContext(), R.layout.listview_selection, routes);
-                    ligne_liste.setAdapter(aa);
-
-                    ligne_liste.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-                        @Override
-                        public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
-                            Intent i = new Intent(getBaseContext(), activity_arret_selection.class);
-                            Bundle b = new Bundle();
-
-                            Route routeChoisie = getRouteFromPosition(position, routesTram);
-
-                            if (routeChoisie != null){
-                                b.putSerializable("route", routeChoisie);
-                                i.putExtras(b);
-                                startActivityForResult(i, 2);
-                            }
-
-                        }
-                    });*/
-
 
                 }
             }
 
             @Override
             public void onFailure(Call<List<StopTime>> call, Throwable t) {
-                Log.e("ligne_sel fail", t.getMessage());
+                try {
+                    throw t;
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+
             }
         });
 
