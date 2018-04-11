@@ -40,7 +40,7 @@ public class Time {
     private Integer serviceDay;
     @SerializedName("tripId")
     @Expose
-    private Integer tripId;
+    private String tripId;
 
     public String getStopId() {
         return stopId;
@@ -130,11 +130,11 @@ public class Time {
         this.serviceDay = serviceDay;
     }
 
-    public Integer getTripId() {
+    public String getTripId() {
         return tripId;
     }
 
-    public void setTripId(Integer tripId) {
+    public void setTripId(String tripId) {
         this.tripId = tripId;
     }
 
