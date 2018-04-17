@@ -21,6 +21,7 @@
         <activity android:name=".activity_arret_selection"></activity>
         <activity android:name=".Activity_Direction_Selection"></activity>
         <activity android:name=".Activity_Show_Stoptimes"></activity>
+        <service android:name=".ArretService" android:exported="false"></service>
     </application>
 
 </manifest>

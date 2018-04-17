@@ -73,6 +73,11 @@ int choiceDirection;
         b.putSerializable("arret", currentArret);
         b.putSerializable("route", currentRoute);
         b.putInt("choiceDirection", choiceDirection);
+        if (choiceDirection==1){
+            b.putString("nameDirection", terminus2);
+        }else{
+            b.putString("nameDirection", terminus1);
+        }
         i.putExtras(b);
         startActivityForResult(i, 3);
     }
