@@ -1,33 +1,20 @@
 package miage.metro.com.metromiagewithactivity;
 
-import android.app.AlarmManager;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.List;
-
 import API.Arret;
-import API.MetroInterface;
 import API.Route;
 import API.ServiceFactory;
-import API.StopTime.StopTime;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by Andréas on 07/04/2018.
@@ -99,7 +86,7 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
             }
         });*/
 
-        final Intent arretIntent = new Intent(this, ArretService.class);
+        final Intent arretIntent = new Intent(this, StoptimeService.class);
         Bundle bun = new Bundle();
         bun.putSerializable("arret", currentArret);
         bun.putSerializable("route", currentRoute);

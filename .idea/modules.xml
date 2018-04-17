@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MetroMiageWithActivity.iml" filepath="$PROJECT_DIR$/MetroMiageWithActivity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MetroMiageWithActivityOld.iml" filepath="$PROJECT_DIR$/MetroMiageWithActivityOld.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

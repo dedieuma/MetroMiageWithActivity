@@ -1,14 +1,11 @@
 package miage.metro.com.metromiagewithactivity;
 
 import android.app.IntentService;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -25,12 +22,12 @@ import retrofit2.Response;
  * Created by Andréas on 17/04/2018.
  */
 
-public class ArretService extends IntentService{
+public class StoptimeService extends IntentService{
     Arret currentArret;
     Route currentRoute;
     int choiceDirection;
-    public ArretService(){
-        super("ArretService");
+    public StoptimeService(){
+        super("StoptimeService");
 
     }
 
@@ -55,11 +52,11 @@ public class ArretService extends IntentService{
 
                     Intent localIntent = new Intent("ACTION_DONE");
                     localIntent.putExtra("stopTime", treatment.getDrawingTime(stopTimes.get(0).getTimes().get(0).getRealtimeDeparture()));
-                    LocalBroadcastManager.getInstance(ArretService.this).sendBroadcast(localIntent);
+                    LocalBroadcastManager.getInstance(StoptimeService.this).sendBroadcast(localIntent);
 
 
                 }else{
-                    Log.e("ArretService", "Error Message : "+response.message());
+                    Log.e("StoptimeService", "Error Message : "+response.message());
                 }
             }
 
