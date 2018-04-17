@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         but_bus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "TODO !", Toast.LENGTH_SHORT);
+                Toast.makeText(getApplicationContext(), "TODO !", Toast.LENGTH_SHORT).show();
             }
         });
     }

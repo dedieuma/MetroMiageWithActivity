@@ -10,7 +10,10 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import API.Arret;
 import API.Route;
@@ -20,6 +23,9 @@ import API.ServiceFactory;
  * Created by Andréas on 07/04/2018.
  */
 
+/**
+ * Affichage des Temps
+ */
 public class Activity_Show_Stoptimes extends AppCompatActivity {
 
     ServiceFactory treatment;
@@ -42,6 +48,7 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
             nameDirection = b.getString("nameDirection");
         }
 
+        // Texte de résumé de la ligne, arret, direction
         TextView text_title_route = (TextView) findViewById(R.id.text_title_route);
         String tmp = "Tram "+currentRoute.getShortName()+"\nArret "+currentArret.getName()+"\nDirection "+nameDirection;
         text_title_route.setText(tmp);
@@ -86,6 +93,11 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
             }
         });*/
 
+        /*
+        Bloc réservé à la notification et à l'affichage du temps restant
+        La demande à l'API se fait au travers d'un service (= une activité qui n'a pas de layout en quelque sorte). Cela sert pour la notification.
+        Basé sur le TP4
+         */
         final Intent arretIntent = new Intent(this, StoptimeService.class);
         Bundle bun = new Bundle();
         bun.putSerializable("arret", currentArret);
@@ -98,6 +110,8 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Intent intentReceive = new Intent(context, Activity_Show_Stoptimes.class);
+                // Ces flags servent à afficher l'activité Activity_Show_Stoptimes si elle existe déjà lors du clic sur la notification,
+                // ou la créer si elle n'existe pas (dans notre cas elle existera toujours je suppose)
                 intentReceive.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 PendingIntent intentPendingReceive =
                         PendingIntent.getActivity(Activity_Show_Stoptimes.this, 0, intentReceive, 0);
@@ -114,6 +128,7 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
                 NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(Activity_Show_Stoptimes.this);
                 notificationManagerCompat.notify(8, mBuilder.build());
 
+                // Li piti texte qui s'affiche
                 TextView text_time = (TextView) findViewById(R.id.text_next_time);
                 text_time.setText("Prochain arret dans\n"+intent.getStringExtra("stopTime"));
             }
@@ -128,6 +143,13 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
 
 
 
+        Button b_save = (Button) findViewById(R.id.button_save);
+        b_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "TODO !",Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 

@@ -15,6 +15,10 @@ import API.ServiceFactory;
  * Created by Andréas on 07/04/2018.
  */
 
+/**
+ * Activity_Direction_Selection
+ * activité de sélection de la direction de la ligne
+ */
 public class Activity_Direction_Selection extends AppCompatActivity {
 
 ServiceFactory treatment;
@@ -38,6 +42,7 @@ int choiceDirection;
         }
 
 
+        // Gestion des 2 boutons de sélection
         Button b_term_1 = (Button) findViewById(R.id.button_terminus1);
         Button b_term_2 = (Button) findViewById(R.id.button_terminus2);
 
@@ -46,6 +51,7 @@ int choiceDirection;
         TextView text_term_2 = (TextView) findViewById(R.id.text_terminus2);
         text_term_2.setText(terminus2);
 
+        // Ouais le numéro des directions et des boutons sont inversés. Remercie l'API qui a pris les numéros inverses que mon implémentation
         b_term_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,6 +89,7 @@ int choiceDirection;
     }
 
 
+    // TODO
     /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == 2) {

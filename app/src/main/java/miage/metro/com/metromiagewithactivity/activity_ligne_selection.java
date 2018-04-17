@@ -71,6 +71,9 @@ public class activity_ligne_selection extends AppCompatActivity {
 
                             if (routeChoisie != null){
                                 // on passe l'objet Route en paramètre de l'intent, pour qu'on puisse la récupérer dans la nouvelle activité
+                                // NB : pour passer des classes en paramètres de Bundle, il faut les déclarer comme implémentant Serializable
+                                // Les Models de données ont été construites grâce à http://www.jsonschema2pojo.org/
+                                // On lui file un json, il construit un model de donnée java
                                 b.putSerializable("route", routeChoisie);
                                 i.putExtras(b);
                                 startActivityForResult(i, 2);

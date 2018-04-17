@@ -33,9 +33,12 @@ public class activity_arret_selection extends AppCompatActivity {
         treatment = new ServiceFactory();
         Bundle b = getIntent().getExtras();
 
+        // récupération de la route, qu'on avait passé en paramètre de l'intent
         if (b != null)
             currentRoute = (Route)b.getSerializable("route");
 
+        // demande de récupération des arrêts de la route choisie
+        //exemple pour le tram B : https://data.metromobilite.fr/api/routers/default/index/routes/SEM:B/clusters
         MetroInterface service = ServiceFactory.getInstance();
         service.getArrets("SEM:"+currentRoute.getShortName()).enqueue(new Callback<List<Arret>>() {
             @Override
@@ -52,6 +55,8 @@ public class activity_arret_selection extends AppCompatActivity {
                     ligne_liste.setOnItemClickListener(new AdapterView.OnItemClickListener(){
                         @Override
                         public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
+
+                            // Création de l'activité suivante
                             Intent i = new Intent(getBaseContext(), Activity_Direction_Selection.class);
                             Bundle b = new Bundle();
 
