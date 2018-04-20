@@ -84,6 +84,7 @@ int choiceDirection;
         }else{
             b.putString("nameDirection", terminus1);
         }
+        b.putBoolean("flagSaveButton", true);
         i.putExtras(b);
         startActivityForResult(i, 3);
     }

@@ -18,6 +18,9 @@ import android.widget.Toast;
 import API.Arret;
 import API.Route;
 import API.ServiceFactory;
+import Persistance.Data_Arret_Route_Direction;
+import Persistance.StorageImpl;
+import Persistance.StorageService;
 
 /**
  * Created by Andréas on 07/04/2018.
@@ -33,6 +36,7 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
     Route currentRoute;
     int choiceDirection;
     String nameDirection;
+    boolean flagSaveButtonVisibility;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +50,13 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
             currentRoute = (Route)b.getSerializable("route");
             choiceDirection = b.getInt("choiceDirection");
             nameDirection = b.getString("nameDirection");
+            flagSaveButtonVisibility = b.getBoolean("flagSaveButton");
         }
 
         // Texte de résumé de la ligne, arret, direction
         TextView text_title_route = (TextView) findViewById(R.id.text_title_route);
         String tmp = "Tram "+currentRoute.getShortName()+"\nArret "+currentArret.getName()+"\nDirection "+nameDirection;
         text_title_route.setText(tmp);
-
-
 
 
 
@@ -142,14 +145,24 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
                 myServiceIntentFilter);
 
 
-
         Button b_save = (Button) findViewById(R.id.button_save);
-        b_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "TODO !",Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (flagSaveButtonVisibility){
+            b_save.setVisibility(View.VISIBLE);
+            b_save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    StorageService storage = new StorageImpl();
+                    Data_Arret_Route_Direction ard = new Data_Arret_Route_Direction(currentArret, currentRoute, choiceDirection, nameDirection);
+                    storage.add(getApplicationContext(), ard);
+                    Toast.makeText(getApplicationContext(), "Arret enregistré !", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }else{
+            b_save.setVisibility(View.GONE);
+        }
+
+
 
     }
 

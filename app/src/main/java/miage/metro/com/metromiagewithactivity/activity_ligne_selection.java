@@ -25,6 +25,7 @@ import retrofit2.Response;
  */
 public class activity_ligne_selection extends AppCompatActivity {
 
+    boolean isTram;
     ServiceFactory treatment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,10 @@ public class activity_ligne_selection extends AppCompatActivity {
 
         // le ServiceFactory apporte les méthodes de traitement des données reçus par l'API
         treatment = new ServiceFactory();
-
+        Bundle b = getIntent().getExtras();
+        if (b!=null){
+            isTram = b.getBoolean("isTram");
+        }
 
 
         // voir TP4 pour le fonctionnement des appels à une API.
@@ -42,45 +46,60 @@ public class activity_ligne_selection extends AppCompatActivity {
         service.getRoutes().enqueue(new Callback<List<Route>>() {
             @Override
             public void onResponse(Call<List<Route>> call, Response<List<Route>> response) {
-                if(response.isSuccessful()){
-                    // si l'appel de l'API pour obtenir les routes, appel fait sur l'url
-                    // https://data.metromobilite.fr/api/routers/default/index/routes
-                    // alors on fait ce qu'il y a en dessous
+                if(response.isSuccessful()) {
 
-                    // récupération des lignes de tram
-                    final List<Route> routesTram = treatment.getTramLigne(response.body());
-                    final List<String> routes = treatment.getTramLignesToString(routesTram);
+                    final List<Route> listRoutes;
+                    final List<String> routes;
+
+                    if (isTram) {
+                        // si l'appel de l'API pour obtenir les routes, appel fait sur l'url
+                        // https://data.metromobilite.fr/api/routers/default/index/routes
+                        // alors on fait ce qu'il y a en dessous
+
+                        // récupération des lignes de tram
+                        listRoutes = treatment.getTramLigne(response.body());
+                        routes = treatment.getTramLignesToString(listRoutes);
+
+                    }else{ // is Bus
+                        listRoutes = treatment.getBusLigne(response.body());
+                        routes = treatment.getBusLigneToString(listRoutes);
+                    }
+                        // transformation des lignes de tram récupérées en tableau de layout
+                        ListView ligne_liste = (ListView) findViewById(R.id.listview_selection_ligne);
+                        ArrayAdapter aa = new ArrayAdapter(getBaseContext(), R.layout.listview_selection_lignes, routes);
+                        ligne_liste.setAdapter(aa);
+
+                        // au clic sur une ligne du tableau, déclenchement de l'activité suivante : activity_arret_selection
+                        ligne_liste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
+                                Intent i = new Intent(getBaseContext(), activity_arret_selection.class);
+                                Bundle b = new Bundle();
 
 
-                    // transformation des lignes de tram récupérées en tableau de layout
-                    ListView ligne_liste = (ListView) findViewById(R.id.listview_selection_ligne);
-                    ArrayAdapter aa = new ArrayAdapter(getBaseContext(), R.layout.listview_selection, routes);
-                    ligne_liste.setAdapter(aa);
-
-                    // au clic sur une ligne du tableau, déclenchement de l'activité suivante : activity_arret_selection
-                    ligne_liste.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-                        @Override
-                        public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
-                            Intent i = new Intent(getBaseContext(), activity_arret_selection.class);
-                            Bundle b = new Bundle();
-
-
-                            Route routeChoisie = getRouteFromPosition(position, routesTram);
+                                Route routeChoisie;
+                                if(isTram){
+                                    routeChoisie = getRouteFromPosition(position, listRoutes);
+                                }else{
+                                    routeChoisie = getRouteFromShortName(position, routes, listRoutes);
+                                }
 
 
 
-                            if (routeChoisie != null){
-                                // on passe l'objet Route en paramètre de l'intent, pour qu'on puisse la récupérer dans la nouvelle activité
-                                // NB : pour passer des classes en paramètres de Bundle, il faut les déclarer comme implémentant Serializable
-                                // Les Models de données ont été construites grâce à http://www.jsonschema2pojo.org/
-                                // On lui file un json, il construit un model de donnée java
-                                b.putSerializable("route", routeChoisie);
-                                i.putExtras(b);
-                                startActivityForResult(i, 2);
+
+                                if (routeChoisie != null) {
+                                    // on passe l'objet Route en paramètre de l'intent, pour qu'on puisse la récupérer dans la nouvelle activité
+                                    // NB : pour passer des classes en paramètres de Bundle, il faut les déclarer comme implémentant Serializable
+                                    // Les Models de données ont été construites grâce à http://www.jsonschema2pojo.org/
+                                    // On lui file un json, il construit un model de donnée java
+                                    b.putSerializable("route", routeChoisie);
+                                    b.putBoolean("isTram", isTram);
+                                    i.putExtras(b);
+                                    startActivityForResult(i, 2);
+                                }
+
                             }
-
-                        }
-                    });
+                        });
 
 
                 }
@@ -93,6 +112,7 @@ public class activity_ligne_selection extends AppCompatActivity {
         });
 
     }
+
 
 
     @Override
@@ -126,4 +146,18 @@ public class activity_ligne_selection extends AppCompatActivity {
         }
         return null;
     }
+
+
+    private Route getRouteFromShortName(int position, List<String> routes, List<Route> listRoutes) {
+        String myShortName = routes.get(position);
+        String[] evenShorter = myShortName.split(" ");
+        for(Route rourou : listRoutes){
+            if(rourou.getShortName().equals(evenShorter[1])){
+                return rourou;
+            }
+        }
+        return null;
+
+    }
+
 }

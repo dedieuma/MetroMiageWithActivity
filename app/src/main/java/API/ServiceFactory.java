@@ -55,6 +55,17 @@ public class ServiceFactory {
         return trams;
     }
 
+    public List<Route> getBusLigne(List<Route> body) {
+        List<Route> bus = new ArrayList<>();
+        for (Route ligne:body) {
+            if (ligne.getMode().equals( "BUS")){
+                bus.add(ligne);
+            }
+        }
+
+        return bus;
+    }
+
     /**
      * getTramLignesToString(List<Route> trams)
      * construit la liste de nom des trams à afficher sur le layout à partir de la liste de Route "trams"
@@ -71,6 +82,18 @@ public class ServiceFactory {
 
         Collections.sort(tramsString);
         return tramsString;
+    }
+
+
+    public List<String> getBusLigneToString(List<Route> listRoutes) {
+
+        List<String> busString = new ArrayList<>();
+        for(Route bus:listRoutes){
+            busString.add(bus.getType() +" "+bus.getShortName());
+        }
+
+        Collections.sort(busString);
+        return busString;
     }
 
 
@@ -175,4 +198,7 @@ public class ServiceFactory {
         return hours+minutes+seconds;
 
     }
+
+
+
 }

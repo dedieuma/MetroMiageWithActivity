@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+
 /***
  * MainActivity
  * Choix du type de transport : bus ou tram
@@ -29,16 +30,31 @@ public class MainActivity extends AppCompatActivity {
         but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle b = new Bundle();
+                b.putBoolean("isTram", true);
+                i.putExtras(b);
                 startActivityForResult(i, 1);
             }
         });
 
-        // TODO
+
         Button but_bus = (Button) findViewById(R.id.button_bus);
         but_bus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "TODO !", Toast.LENGTH_SHORT).show();
+                Bundle b = new Bundle();
+                b.putBoolean("isTram",false);
+                i.putExtras(b);
+                startActivityForResult(i, 2);
+            }
+        });
+
+        Button but_saved = (Button) findViewById(R.id.button_access_save_stops);
+        but_saved.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent_shared_pref = new Intent(getApplicationContext(), Activity_Shared_Pref_Selection.class);
+                startActivityForResult(intent_shared_pref, 10);
             }
         });
     }

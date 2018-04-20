@@ -5,4 +5,5 @@
     <string name="direction_selection">Sélectionnez votre direction</string>
     <string name="save_arret">Sauvegarder</string>
     <string name="pending_time">En cours...</string>
+    <string name="access_save_stops">Arrêts sauvegardés</string>
 </resources>
