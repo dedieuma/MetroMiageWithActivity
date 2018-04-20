@@ -30,21 +30,20 @@ import retrofit2.Response;
 
 public class Activity_Shared_Pref_Selection extends AppCompatActivity {
 
-    ServiceFactory treatment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_ligne_selection);
 
         // le ServiceFactory apporte les méthodes de traitement des données reçus par l'API
-        treatment = new ServiceFactory();
 
 
         final StorageService storageService = new StorageImpl();
         final List<Data_Arret_Route_Direction> dataARD = storageService.restore(getApplicationContext());
 
         if(dataARD == null || dataARD.size() == 0){
-            Toast.makeText(getApplicationContext(), "Aucun arret sauvegardé !", Toast.LENGTH_SHORT);
+            //Toast.makeText(getApplicationContext(), "Aucun arret sauvegardé !", Toast.LENGTH_SHORT);
             finish();
             return;
         }
@@ -52,7 +51,8 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
 
 
         ListView ligne_liste = (ListView) findViewById(R.id.listview_selection_ligne);
-        ArrayAdapter aa = new ArrayAdapter(getBaseContext(), R.layout.listview_selection_lignes, getCodeArret(dataARD));
+        //ArrayAdapter aa = new ArrayAdapter(getBaseContext(), R.layout.listview_selection_lignes, getCodeArret(dataARD));
+        DataARDAdapter aa = new DataARDAdapter(Activity_Shared_Pref_Selection.this, dataARD);
 
         ligne_liste.setAdapter(aa);
 

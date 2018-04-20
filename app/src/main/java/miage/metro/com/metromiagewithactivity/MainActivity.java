@@ -2,12 +2,19 @@ package miage.metro.com.metromiagewithactivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.util.List;
+
+import Persistance.Data_Arret_Route_Direction;
+import Persistance.StorageImpl;
+import Persistance.StorageService;
 
 
 /***
@@ -53,8 +60,15 @@ public class MainActivity extends AppCompatActivity {
         but_saved.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent_shared_pref = new Intent(getApplicationContext(), Activity_Shared_Pref_Selection.class);
-                startActivityForResult(intent_shared_pref, 10);
+                StorageService storageService = new StorageImpl();
+                List<Data_Arret_Route_Direction> dataARD = storageService.restore(getApplicationContext());
+                if (dataARD == null || dataARD.size() == 0){
+                    Toast.makeText(MainActivity.this, "Aucun arrêt enregistré !", Toast.LENGTH_SHORT).show();
+
+                }else {
+                    Intent intent_shared_pref = new Intent(getApplicationContext(), Activity_Shared_Pref_Selection.class);
+                    startActivityForResult(intent_shared_pref, 10);
+                }
             }
         });
     }
