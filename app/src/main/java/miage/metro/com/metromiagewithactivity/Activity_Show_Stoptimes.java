@@ -36,7 +36,7 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
     Route currentRoute;
     int choiceDirection;
     String nameDirection;
-    boolean flagSaveButtonVisibility;
+    boolean flagSaveButtonVisibility, isTram;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +51,18 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
             choiceDirection = b.getInt("choiceDirection");
             nameDirection = b.getString("nameDirection");
             flagSaveButtonVisibility = b.getBoolean("flagSaveButton");
+            isTram = b.getBoolean("isTram");
         }
 
         // Texte de résumé de la ligne, arret, direction
         TextView text_title_route = (TextView) findViewById(R.id.text_title_route);
-        String tmp = "Tram "+currentRoute.getShortName()+"\nArret "+currentArret.getName()+"\nDirection "+nameDirection;
+        String tmp = "";
+        if (isTram){
+            tmp += "Tram ";
+        }else{
+            tmp += "Bus ";
+        }
+        tmp += currentRoute.getShortName()+"\nArret "+currentArret.getName()+"\nDirection "+nameDirection;
         text_title_route.setText(tmp);
 
 
@@ -117,7 +124,7 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
                 // ou la créer si elle n'existe pas (dans notre cas elle existera toujours je suppose)
                 intentReceive.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 PendingIntent intentPendingReceive =
-                        PendingIntent.getActivity(Activity_Show_Stoptimes.this, 0, intentReceive, 0);
+                        PendingIntent.getActivity(Activity_Show_Stoptimes.this, 5, intentReceive, 0);
 
                 final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(Activity_Show_Stoptimes.this)
                         .setSmallIcon(android.R.drawable.sym_def_app_icon)
@@ -133,7 +140,7 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
 
                 // Li piti texte qui s'affiche
                 TextView text_time = (TextView) findViewById(R.id.text_next_time);
-                text_time.setText("Prochain arret dans\n"+intent.getStringExtra("stopTime"));
+                text_time.setText("Prochain passage dans\n"+intent.getStringExtra("stopTime"));
             }
         };
 
@@ -167,7 +174,8 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
     }
 
 
-    /*@Override
+    /*
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == 2) {
             if(resultCode == Activity.RESULT_OK){

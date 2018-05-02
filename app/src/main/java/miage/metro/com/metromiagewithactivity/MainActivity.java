@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 Bundle b = new Bundle();
                 b.putBoolean("isTram",false);
                 i.putExtras(b);
-                startActivityForResult(i, 2);
+                startActivityForResult(i, 1);
             }
         });
 
@@ -80,10 +80,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                Log.i("AR Main", "Activity result OK: "+resultCode);
+                Log.i("Main OK", "Activity result OK: "+resultCode);
+                Log.d("Main OK", "Transistion de activity_ligne avec tram vers mainActivity");
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                Log.i("AR Main", "Activity result CANCEL: "+resultCode);
+                Log.i("Main CANCEL", "Activity result CANCEL: "+resultCode);
+                Log.d("Main CANCEL", "Cancel de activity_ligne avec tram vers mainActivity");
+            }
+        }
+        if (requestCode == 10){
+            if(resultCode == Activity.RESULT_OK){
+                Log.i("Main OK", "Activity result OK: "+resultCode);
+                Log.d("Main OK", "Transistion de activity_Shared_Pref avec bus vers mainActivity");
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                Log.i("Main CANCEL", "Activity result CANCEL: "+resultCode);
+                Log.d("Main CANCEL", "Cancel de activity_Shared_Pref avec bus vers mainActivity");
             }
         }
     }

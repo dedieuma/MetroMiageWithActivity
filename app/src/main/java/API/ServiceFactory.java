@@ -133,6 +133,7 @@ public class ServiceFactory {
         return stopTimesList;
     }
 
+
     /**
      * isTheSameRoute(String id, String currentRoute)
      * vérifie que le stopTime en cours de traitement et la route choisie soient les mêmes
@@ -142,7 +143,7 @@ public class ServiceFactory {
      */
     private boolean isTheSameRoute(String id, String currentRoute) {
         String[] splitted = id.split(":");
-        return splitted[0].equals("SEM") && splitted[1].equals(currentRoute);
+        return splitted[1].equals(currentRoute);
     }
 
     /**

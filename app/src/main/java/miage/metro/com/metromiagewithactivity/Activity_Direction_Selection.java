@@ -1,8 +1,10 @@
 package miage.metro.com.metromiagewithactivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,6 +28,7 @@ Arret currentArret;
 Route currentRoute;
 String terminus1, terminus2;
 int choiceDirection;
+boolean isTram;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,7 @@ int choiceDirection;
             terminus1 = b.getString("terminus1");
             terminus2 = b.getString("terminus2");
             currentRoute = (Route)b.getSerializable("route");
+            isTram = b.getBoolean("isTram");
         }
 
 
@@ -85,26 +89,26 @@ int choiceDirection;
             b.putString("nameDirection", terminus1);
         }
         b.putBoolean("flagSaveButton", true);
+        b.putBoolean("isTram", isTram);
         i.putExtras(b);
-        startActivityForResult(i, 3);
+        startActivityForResult(i, 4);
     }
 
 
-    // TODO
-    /*@Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (requestCode == 2) {
+        if (requestCode == 4) {
             if(resultCode == Activity.RESULT_OK){
-                Log.d("transition", "transition de activity_arret vers mainActivity");
+                Log.d("Direction OK", "transition de Activity_show_stoptime vers activity_direction");
 
 
 
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
+                Log.d("Direction CANCEL", "CANCEL de Activity_show_stoptime vers activity_direction");
             }
         }
-    }*/
+    }
 
 
 }

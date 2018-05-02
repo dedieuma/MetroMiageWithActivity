@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -108,6 +109,7 @@ public class activity_ligne_selection extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Route>> call, Throwable t) {
                 Log.e("ligne_sel fail", t.getMessage());
+
             }
         });
 
@@ -119,12 +121,11 @@ public class activity_ligne_selection extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == 2) {
             if(resultCode == Activity.RESULT_OK){
-                Log.d("transition", "transition de activity_arret vers mainActivity");
-
+                Log.d("Ligne OK", "transition de activity_arret vers activity_ligne");
 
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
+                Log.d("Ligne Cancel", "Cancel de arret_activity vers ligne_activity");
             }
         }
     }

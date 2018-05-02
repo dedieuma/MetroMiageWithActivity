@@ -72,6 +72,12 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
                     b.putInt("choiceDirection", dataARD.get(position).getDirection());
                     b.putString("nameDirection", dataARD.get(position).getNameDirection());
                     b.putBoolean("flagSaveButton", false);
+                    if (dataARD.get(position).getRoute().getType().equals("TRAM")){
+                        b.putBoolean("isTram", true);
+                    }
+                    else{
+                        b.putBoolean("isTram", false);
+                    }
 
                     i.putExtras(b);
                     startActivityForResult(i, 11);

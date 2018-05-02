@@ -51,7 +51,15 @@ public class StoptimeService extends IntentService{
                     List<StopTime> stopTimes = treatment.getStopTime(response.body(), currentRoute.getShortName(), choiceDirection);
 
                     Intent localIntent = new Intent("ACTION_DONE");
-                    localIntent.putExtra("stopTime", treatment.getDrawingTime(stopTimes.get(0).getTimes().get(0).getRealtimeDeparture()));
+                    if(stopTimes == null || stopTimes.size() == 0 || stopTimes.get(0).getTimes()==null || stopTimes.get(0).getTimes().size() == 0){
+                        try {
+                            throw new Exception("Erreur de parse de stopTimes");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    int realTimeDeparture = stopTimes.get(0).getTimes().get(0).getRealtimeDeparture();
+                    localIntent.putExtra("stopTime", treatment.getDrawingTime(realTimeDeparture));
                     LocalBroadcastManager.getInstance(StoptimeService.this).sendBroadcast(localIntent);
 
 
