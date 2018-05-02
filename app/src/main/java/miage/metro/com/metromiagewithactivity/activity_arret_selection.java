@@ -59,17 +59,48 @@ public class activity_arret_selection extends AppCompatActivity {
                             @Override
                             public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
 
-                                // Création de l'activité suivante
-                                Intent i = new Intent(getBaseContext(), Activity_Direction_Selection.class);
-                                Bundle b = new Bundle();
+                                String terminus1 = arretsString.get(0);
+                                String terminus2 = arretsString.get(arretsString.size()-1);
+                                Arret arretSelected = arretsTram.get(position);
 
-                                b.putString("terminus1", arretsString.get(0));
-                                b.putString("terminus2", arretsString.get(arretsString.size()-1));
-                                b.putSerializable("route", currentRoute);
-                                b.putSerializable("arret", arretsTram.get(position));
-                                b.putBoolean("isTram", isTram);
-                                i.putExtras(b);
-                                startActivityForResult(i, 3);
+                                if(terminus1.equals(arretSelected.getCity()+" - "+arretSelected.getName())){
+                                    Intent i = new Intent(getBaseContext(), Activity_Show_Stoptimes.class);
+                                    Bundle b = new Bundle();
+                                    b.putSerializable("arret", arretSelected);
+                                    b.putSerializable("route", currentRoute);
+                                    b.putInt("choiceDirection", 1);
+                                    b.putString("nameDirection", terminus2);
+                                    b.putBoolean("flagSaveButton", true);
+                                    b.putBoolean("isTram", isTram);
+                                    i.putExtras(b);
+                                    startActivityForResult(i, 4);
+                                }else if (terminus2.equals(arretSelected.getCity()+" - "+arretSelected.getName())) {
+                                    Intent i = new Intent(getBaseContext(), Activity_Show_Stoptimes.class);
+                                    Bundle b = new Bundle();
+                                    b.putSerializable("arret", arretSelected);
+                                    b.putSerializable("route", currentRoute);
+                                    b.putInt("choiceDirection", 2);
+                                    b.putString("nameDirection", terminus1);
+                                    b.putBoolean("flagSaveButton", true);
+                                    b.putBoolean("isTram", isTram);
+                                    i.putExtras(b);
+                                    startActivityForResult(i, 4);
+                                }else{
+                                    // Création de l'activité suivante
+                                    Intent i = new Intent(getBaseContext(), Activity_Direction_Selection.class);
+                                    Bundle b = new Bundle();
+
+                                    b.putString("terminus1", arretsString.get(0));
+                                    b.putString("terminus2", arretsString.get(arretsString.size()-1));
+                                    b.putSerializable("route", currentRoute);
+                                    b.putSerializable("arret", arretsTram.get(position));
+                                    b.putBoolean("isTram", isTram);
+                                    i.putExtras(b);
+                                    startActivityForResult(i, 3);
+                                }
+
+
+
                             }
                         });
 

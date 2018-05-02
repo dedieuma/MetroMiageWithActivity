@@ -177,6 +177,7 @@ public class ServiceFactory {
      */
     private String toNextStop(Integer realtimeDeparture, int currentTimeStamp) {
         int difference = realtimeDeparture-currentTimeStamp;
+
         /*Date date = new Date(difference);
         DateFormat formatter = new SimpleDateFormat("HH:mm:ss:SSS");*/
 
@@ -185,6 +186,10 @@ public class ServiceFactory {
 
         String res = minutes==0 ? "" : ""+minutes+" minutes";
         res+= " "+secondes+" secondes";
+
+        if (difference < 0){
+            res+= "L'API semble retarder. Veuillez rafraîchir l'activité";
+        }
 
         return res;
 
