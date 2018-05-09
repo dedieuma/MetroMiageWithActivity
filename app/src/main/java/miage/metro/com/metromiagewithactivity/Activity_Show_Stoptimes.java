@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -37,11 +38,14 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
     int choiceDirection;
     String nameDirection;
     boolean flagSaveButtonVisibility, isTram;
+    Handler handler;
+    Runnable runnable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_show_times);
         treatment = new ServiceFactory();
+
 
         Bundle b = getIntent().getExtras();
 
@@ -114,14 +118,38 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
         bun.putSerializable("route", currentRoute);
         bun.putInt("choiceDirection", choiceDirection);
         arretIntent.putExtras(bun);
-        startService(arretIntent);
+        //startService(arretIntent);
+
+
+        handler = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                startService(arretIntent);
+                handler.postDelayed(this, 30000);
+            }
+        };
+        handler.postDelayed(runnable, 0);
+
+        /*
+        handler = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                final Intent serviceIntent = new Intent(SplashScreen.this, NotificationService.class);
+                startService(serviceIntent);
+                handler.postDelayed(SplashScreen.this.runnable,30000);
+            }
+        };
+        handler.postDelayed(SplashScreen.this.runnable,30000);
+        */
 
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if(intent.getStringExtra("stopTime").equals("")){
                     TextView text_time = (TextView) findViewById(R.id.text_next_time);
-                    text_time.setText("Erreur lors de la requete à l'API MetroMobilité\nAvez-vous sélectionné un arrêt de Terminus incompatible avec la direction ?");
+                    text_time.setText("Erreur lors de la requete à l'API MetroMobilité");
                 }else {
 
 
@@ -160,6 +188,8 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
                 myServiceIntentFilter);
 
 
+
+
         Button b_save = (Button) findViewById(R.id.button_save);
         if (flagSaveButtonVisibility){
             b_save.setVisibility(View.VISIBLE);
@@ -176,6 +206,14 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
         }else{
             b_save.setVisibility(View.GONE);
         }
+
+        Button b_back_main = (Button) findViewById(R.id.button_back_main);
+        b_back_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
 
 

@@ -100,6 +100,7 @@ boolean isTram;
         if (requestCode == 4) {
             if(resultCode == Activity.RESULT_OK){
                 Log.d("Direction OK", "transition de Activity_show_stoptime vers activity_direction");
+                finish();
 
 
 

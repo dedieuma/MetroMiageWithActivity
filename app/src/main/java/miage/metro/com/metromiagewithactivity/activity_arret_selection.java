@@ -9,7 +9,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -105,6 +108,10 @@ public class activity_arret_selection extends AppCompatActivity {
                         });
 
 
+                    }else{
+                        Log.e("arret_sel_not_succesful", response.code()+" "+response.raw().message());
+                        TextView errorTxt = (TextView) findViewById(R.id.txt_error_arret);
+                        errorTxt.setText(response.code()+ " "+response.raw().message());
                     }
                 }
 

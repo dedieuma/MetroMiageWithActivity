@@ -6,4 +6,5 @@
     <string name="save_arret">Sauvegarder</string>
     <string name="pending_time">En cours...</string>
     <string name="access_save_stops">Arrêts sauvegardés</string>
+    <string name="back_to_main">Retour au menu principal</string>
 </resources>
