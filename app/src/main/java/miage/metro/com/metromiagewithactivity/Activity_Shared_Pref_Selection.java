@@ -107,6 +107,8 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
         if (requestCode == 2) {
             if(resultCode == Activity.RESULT_OK){
                 Log.d("transition", "transition de activity_arret vers mainActivity");
+                setResult(Activity.RESULT_OK);
+                finish();
 
 
             }

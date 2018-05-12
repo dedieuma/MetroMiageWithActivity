@@ -188,7 +188,7 @@ public class ServiceFactory {
         res+= " "+secondes+" secondes";
 
         if (difference < 0){
-            res+= "\nL'API semble retarder. Veuillez rafraîchir l'activité";
+            res+= "\nL'API semble retarder. Veuillez patienter...";
         }
 
         return res;

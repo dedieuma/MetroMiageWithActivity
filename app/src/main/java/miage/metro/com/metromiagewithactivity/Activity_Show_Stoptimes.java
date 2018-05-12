@@ -1,5 +1,6 @@
 package miage.metro.com.metromiagewithactivity;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -71,41 +72,6 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
 
 
 
-        /*MetroInterface service = ServiceFactory.getInstance();
-        service.getStopTimes(currentArret.getCode()).enqueue(new Callback<List<StopTime>>() {
-            @Override
-            public void onResponse(Call<List<StopTime>> call, Response<List<StopTime>> response) {
-                if(response.isSuccessful()){
-                    final List<StopTime> stopTimes = treatment.getStopTime(response.body(), currentRoute.getShortName(), choiceDirection);
-
-                    TextView text_time = (TextView) findViewById(R.id.text_next_time);
-                    final String time = treatment.getDrawingTime(stopTimes.get(0).getTimes().get(0).getRealtimeDeparture());
-                    text_time.setText("Prochain arret dans\n"+time.toString());
-
-                    BroadcastReceiver receiver = new BroadcastReceiver() {
-                        @Override
-                        public void onReceive(Context context, Intent intent) {
-                            TextView text_time = (TextView) findViewById(R.id.text_next_time);
-                            final String time = treatment.getDrawingTime(stopTimes.get(0).getTimes().get(0).getRealtimeDeparture());
-                            text_time.setText("Prochain arret dans\n"+time.toString());
-                        }
-                    };
-
-                }
-            }
-
-
-
-            @Override
-            public void onFailure(Call<List<StopTime>> call, Throwable t) {
-                try {
-                    throw t;
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-
-            }
-        });*/
 
         /*
         Bloc réservé à la notification et à l'affichage du temps restant
@@ -130,19 +96,6 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
             }
         };
         handler.postDelayed(runnable, 0);
-
-        /*
-        handler = new Handler();
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                final Intent serviceIntent = new Intent(SplashScreen.this, NotificationService.class);
-                startService(serviceIntent);
-                handler.postDelayed(SplashScreen.this.runnable,30000);
-            }
-        };
-        handler.postDelayed(SplashScreen.this.runnable,30000);
-        */
 
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
@@ -211,6 +164,7 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
         b_back_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(Activity.RESULT_OK);
                 finish();
             }
         });
@@ -219,20 +173,4 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
 
     }
 
-
-    /*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (requestCode == 2) {
-            if(resultCode == Activity.RESULT_OK){
-                Log.d("transition", "transition de activity_arret vers mainActivity");
-
-
-
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
-            }
-        }
-    }*/
 }

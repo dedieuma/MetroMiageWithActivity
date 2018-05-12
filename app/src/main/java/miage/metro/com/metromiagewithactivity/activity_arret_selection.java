@@ -41,9 +41,12 @@ public class activity_arret_selection extends AppCompatActivity {
             currentRoute = (Route) b.getSerializable("route");
             isTram = b.getBoolean("isTram");
         }
+        final TextView treatment_message = (TextView) findViewById(R.id.txt_traitement_arret);
+        treatment_message.setVisibility(View.VISIBLE);
+        treatment_message.setText("En cours...");
 
 
-            // demande de récupération des arrêts de la route choisie
+        // demande de récupération des arrêts de la route choisie
             //exemple pour le tram B : https://data.metromobilite.fr/api/routers/default/index/routes/SEM:B/clusters
             MetroInterface service = ServiceFactory.getInstance();
             service.getArrets(currentRoute.getId()).enqueue(new Callback<List<Arret>>() {
@@ -53,6 +56,7 @@ public class activity_arret_selection extends AppCompatActivity {
                         final List<Arret> arretsTram = response.body();
                         final List<String> arretsString = treatment.getArretsLignesToString(arretsTram);
 
+                        treatment_message.setVisibility(View.INVISIBLE);
 
                         ListView ligne_liste = (ListView) findViewById(R.id.listview_selection_arret);
                         ArrayAdapter aa = new ArrayAdapter(getBaseContext(), R.layout.listview_selection_lignes, arretsString);
@@ -66,11 +70,15 @@ public class activity_arret_selection extends AppCompatActivity {
                                 String terminus2 = arretsString.get(arretsString.size()-1);
                                 Arret arretSelected = arretsTram.get(position);
 
+                                Bundle b = new Bundle();
+                                b.putSerializable("route", currentRoute);
+
+                                // Si on a choisi un terminus, il ne faut pas demander à l'utilisateur
+                                // quelle direction prendre
                                 if(terminus1.equals(arretSelected.getCity()+" - "+arretSelected.getName())){
                                     Intent i = new Intent(getBaseContext(), Activity_Show_Stoptimes.class);
-                                    Bundle b = new Bundle();
+
                                     b.putSerializable("arret", arretSelected);
-                                    b.putSerializable("route", currentRoute);
                                     b.putInt("choiceDirection", 1);
                                     b.putString("nameDirection", terminus2);
                                     b.putBoolean("flagSaveButton", true);
@@ -79,9 +87,8 @@ public class activity_arret_selection extends AppCompatActivity {
                                     startActivityForResult(i, 4);
                                 }else if (terminus2.equals(arretSelected.getCity()+" - "+arretSelected.getName())) {
                                     Intent i = new Intent(getBaseContext(), Activity_Show_Stoptimes.class);
-                                    Bundle b = new Bundle();
+
                                     b.putSerializable("arret", arretSelected);
-                                    b.putSerializable("route", currentRoute);
                                     b.putInt("choiceDirection", 2);
                                     b.putString("nameDirection", terminus1);
                                     b.putBoolean("flagSaveButton", true);
@@ -91,11 +98,11 @@ public class activity_arret_selection extends AppCompatActivity {
                                 }else{
                                     // Création de l'activité suivante
                                     Intent i = new Intent(getBaseContext(), Activity_Direction_Selection.class);
-                                    Bundle b = new Bundle();
+
 
                                     b.putString("terminus1", arretsString.get(0));
                                     b.putString("terminus2", arretsString.get(arretsString.size()-1));
-                                    b.putSerializable("route", currentRoute);
+
                                     b.putSerializable("arret", arretsTram.get(position));
                                     b.putBoolean("isTram", isTram);
                                     i.putExtras(b);
@@ -110,8 +117,8 @@ public class activity_arret_selection extends AppCompatActivity {
 
                     }else{
                         Log.e("arret_sel_not_succesful", response.code()+" "+response.raw().message());
-                        TextView errorTxt = (TextView) findViewById(R.id.txt_error_arret);
-                        errorTxt.setText(response.code()+ " "+response.raw().message());
+                        treatment_message.setVisibility(View.VISIBLE);
+                        treatment_message.setText(response.code()+ " "+response.raw().message());
                     }
                 }
 
@@ -119,6 +126,8 @@ public class activity_arret_selection extends AppCompatActivity {
                 public void onFailure(Call<List<Arret>> call, Throwable t) {
                     Log.e("arret_sel fail", t.getMessage());
                     Toast.makeText(activity_arret_selection.this, "Une erreur s'est produite lors de l'appel à l'API. Veuillez réessayer", Toast.LENGTH_LONG);
+                    treatment_message.setVisibility(View.VISIBLE);
+                    treatment_message.setText(t.getMessage());
                 }
             });
 
@@ -133,7 +142,8 @@ public class activity_arret_selection extends AppCompatActivity {
         if (requestCode == 3) {
             if(resultCode == Activity.RESULT_OK){
                 Log.d("Arret OK", "transition de activity_direction vers activity_arret");
-
+                setResult(Activity.RESULT_OK);
+                finish();
 
 
             }

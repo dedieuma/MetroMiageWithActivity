@@ -9,7 +9,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -41,6 +44,10 @@ public class activity_ligne_selection extends AppCompatActivity {
         }
 
 
+        final TextView txt_traitement_ligne = (TextView) findViewById(R.id.txt_traitement_ligne);
+        txt_traitement_ligne.setVisibility(View.VISIBLE);
+        txt_traitement_ligne.setText("En cours...");
+
         // voir TP4 pour le fonctionnement des appels à une API.
         // Plus de détails dans MetroInterface et ServiceFactory
         MetroInterface service = ServiceFactory.getInstance();
@@ -49,6 +56,7 @@ public class activity_ligne_selection extends AppCompatActivity {
             public void onResponse(Call<List<Route>> call, Response<List<Route>> response) {
                 if(response.isSuccessful()) {
 
+                    txt_traitement_ligne.setVisibility(View.INVISIBLE);
                     final List<Route> listRoutes;
                     final List<String> routes;
 
@@ -103,13 +111,18 @@ public class activity_ligne_selection extends AppCompatActivity {
                         });
 
 
+                }else{
+                    Log.e("ligne_sel_not_succesful", response.code()+" "+response.raw().message());
+                    txt_traitement_ligne.setVisibility(View.VISIBLE);
+                    txt_traitement_ligne.setText(response.code()+ " "+response.raw().message());
                 }
             }
 
             @Override
             public void onFailure(Call<List<Route>> call, Throwable t) {
                 Log.e("ligne_sel fail", t.getMessage());
-
+                txt_traitement_ligne.setVisibility(View.VISIBLE);
+                txt_traitement_ligne.setText(t.getMessage());
             }
         });
 
@@ -122,6 +135,8 @@ public class activity_ligne_selection extends AppCompatActivity {
         if (requestCode == 2) {
             if(resultCode == Activity.RESULT_OK){
                 Log.d("Ligne OK", "transition de activity_arret vers activity_ligne");
+                setResult(Activity.RESULT_OK);
+                finish();
 
             }
             if (resultCode == Activity.RESULT_CANCELED) {
