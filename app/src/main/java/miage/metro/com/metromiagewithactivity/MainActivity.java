@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         final Intent i = new Intent(this, activity_ligne_selection.class);
 
         // Au click sur le bouton tram, lancement de l'activité correspondante
-        Button but = (Button) findViewById(R.id.button_tram);
+        CardView but = (CardView) findViewById(R.id.button_tram);
         but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Button but_bus = (Button) findViewById(R.id.button_bus);
+        CardView but_bus = (CardView) findViewById(R.id.button_bus);
         but_bus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button but_saved = (Button) findViewById(R.id.button_access_save_stops);
+        CardView but_saved = (CardView) findViewById(R.id.button_access_save_stops);
         but_saved.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
