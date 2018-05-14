@@ -72,6 +72,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        CardView but_map = (CardView) findViewById(R.id.button_map);
+        but_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "TO DO", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // Quand on veut qu'une activité termine, on lui indique un code qu'elle doit renvoyer à l'activité mère.
