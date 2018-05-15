@@ -13,7 +13,8 @@
         android:layout_alignParentTop="true"
         android:gravity="center"
         android:text="@string/direction_selection"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textSize="24dp"/>
 
     <Button
         android:id="@+id/button_terminus1"
