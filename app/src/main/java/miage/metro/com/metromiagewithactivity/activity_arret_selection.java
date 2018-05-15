@@ -151,6 +151,18 @@ public class activity_arret_selection extends AppCompatActivity {
                 Log.d("Arret CANCEL", "CANCEL de activity_direction vers activity_arret");
             }
         }
+        if (requestCode == 4){
+            if(resultCode == Activity.RESULT_OK){
+                Log.d("Arret OK", "transition de activity_show_stoptimes vers activity_arret");
+                setResult(Activity.RESULT_OK);
+                finish();
+
+
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                Log.d("Arret CANCEL", "CANCEL de activity_stoptimes vers activity_arret");
+            }
+        }
     }
 
 

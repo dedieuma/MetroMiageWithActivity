@@ -164,6 +164,7 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
         b_back_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                stopService(arretIntent);
                 setResult(Activity.RESULT_OK);
                 finish();
             }

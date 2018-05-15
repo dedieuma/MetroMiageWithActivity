@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -35,6 +36,9 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_ligne_selection);
+
+        TextView state_txt = (TextView)findViewById(R.id.txt_traitement_ligne);
+        state_txt.setVisibility(View.INVISIBLE);
 
         // le ServiceFactory apporte les méthodes de traitement des données reçus par l'API
 
@@ -113,7 +117,7 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
 
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
+                Log.d("Arret CANCEL", "CANCEL de activity_direction vers activity_arret");
             }
         }
     }
