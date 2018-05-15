@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="miage.metro.com.metromiagewithactivity">
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+
+
 
     <application
         android:allowBackup="true"
@@ -22,7 +26,15 @@
         <activity android:name=".Activity_Direction_Selection"></activity>
         <activity android:name=".Activity_Show_Stoptimes"></activity>
         <activity android:name=".Activity_Shared_Pref_Selection"></activity>
+        <activity android:name=".activity_map"></activity>
         <service android:name=".StoptimeService" android:exported="false"></service>
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="
+AIzaSyCGyf84yp4teSEc_d4TWzYiUC0XS87OjTQ
+"></meta-data>
     </application>
+
+
 
 </manifest>

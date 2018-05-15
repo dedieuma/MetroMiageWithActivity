@@ -77,7 +77,10 @@ public class MainActivity extends AppCompatActivity {
         but_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "TO DO", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "TO DO", Toast.LENGTH_SHORT).show();
+                Intent intent_map = new Intent(getApplicationContext(), activity_map.class);
+                startActivityForResult(intent_map, 100);
+
             }
         });
     }
