@@ -155,6 +155,7 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
         ImageView button_map = (ImageView) findViewById(R.id.button_map);
         TextView lbl_map = (TextView) findViewById(R.id.lbl_save);
 
+
         if (flagSaveButtonVisibility){
             b_save.setVisibility(View.VISIBLE);
             lbl_save.setVisibility(View.VISIBLE);
@@ -201,6 +202,15 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
 
             }
         });
+
+        horloge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stopService(arretIntent);
+                startService(arretIntent);
+            }
+        });
+
 
     }
 

@@ -50,7 +50,7 @@ public class SelectionLigneAdapter extends ArrayAdapter<String>{
 
 
         //View view = super.getView(position, convertView, parent);
-        if (position % 2 == 1) {
+        if (position % 2 == 0) {
             convertView.setBackgroundColor(Color.LTGRAY);
         }else{
             convertView.setBackgroundColor(Color.WHITE);
