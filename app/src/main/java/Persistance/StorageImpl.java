@@ -69,7 +69,7 @@ public class StorageImpl implements StorageService {
 
     @Override
     public void add(Context context, Data_Arret_Route_Direction ard) {
-        if (exitsts(context, ard)){
+        if (exists(context, ard)){
             return;
         }
         SharedPreferences preferences = context.getSharedPreferences(sharedPrefName, Context.MODE_PRIVATE);
@@ -90,7 +90,7 @@ public class StorageImpl implements StorageService {
 
     }
 
-    public boolean exitsts(Context context, Data_Arret_Route_Direction ard){
+    public boolean exists(Context context, Data_Arret_Route_Direction ard){
         List<Data_Arret_Route_Direction> dataARD = restore(context);
 
         if (dataARD == null) return false;

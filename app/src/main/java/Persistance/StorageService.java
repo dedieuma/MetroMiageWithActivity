@@ -17,4 +17,5 @@ public interface StorageService {
     List<Data_Arret_Route_Direction> restore(Context context);
     List<Data_Arret_Route_Direction> clear(Context context);
     void add(Context context, Data_Arret_Route_Direction ard);
+    boolean exists(Context context, Data_Arret_Route_Direction ard);
 }

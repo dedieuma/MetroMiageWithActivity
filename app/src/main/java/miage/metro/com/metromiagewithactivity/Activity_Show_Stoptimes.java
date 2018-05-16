@@ -155,10 +155,15 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
         ImageView button_map = (ImageView) findViewById(R.id.button_map);
         TextView lbl_map = (TextView) findViewById(R.id.lbl_save);
 
+        StorageService storage = new StorageImpl();
+        Data_Arret_Route_Direction ard = new Data_Arret_Route_Direction(currentArret, currentRoute, choiceDirection, nameDirection);
+        if(storage.exists(getApplicationContext(), ard)) {
+            b_save.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclegrey));
+            b_save.setClickable(false);
+            flagSaveButtonVisibility = false;
+        }
 
         if (flagSaveButtonVisibility){
-            b_save.setVisibility(View.VISIBLE);
-            lbl_save.setVisibility(View.VISIBLE);
             b_save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
