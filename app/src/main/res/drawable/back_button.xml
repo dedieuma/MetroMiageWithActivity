@@ -2,9 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
     <stroke
         android:color="#80FFFFFF" />
-
-    <gradient android:angle="270"
-        android:centerColor="@color/deeppurple"
-        android:endColor="@color/deeppurple"
-        android:startColor="@color/deeppurple" />
+    <solid android:color="@color/deeppurple"></solid>
 </shape>

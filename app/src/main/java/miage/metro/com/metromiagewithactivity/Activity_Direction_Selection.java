@@ -2,11 +2,13 @@ package miage.metro.com.metromiagewithactivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import API.Arret;
@@ -47,8 +49,15 @@ boolean isTram;
 
 
         // Gestion des 2 boutons de sélection
-        Button b_term_1 = (Button) findViewById(R.id.button_terminus1);
-        Button b_term_2 = (Button) findViewById(R.id.button_terminus2);
+        ImageView b_term_1 = (ImageView) findViewById(R.id.button_terminus1);
+        ImageView b_term_2 = (ImageView) findViewById(R.id.button_terminus2);
+        if(isTram){
+            b_term_1.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclepurple));
+            b_term_2.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclepurple));
+        } else {
+            b_term_1.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclegreen));
+            b_term_2.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclegreen));
+        }
 
         TextView text_term_1 = (TextView) findViewById(R.id.text_terminus1);
         text_term_1.setText(terminus1);

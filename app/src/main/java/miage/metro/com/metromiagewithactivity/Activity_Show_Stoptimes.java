@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
@@ -14,6 +15,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,11 +63,17 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
 
         // Texte de résumé de la ligne, arret, direction
         TextView text_title_route = (TextView) findViewById(R.id.text_title_route);
+        ImageView horloge = (ImageView) findViewById(R.id.horloge_icon);
+        Button back_menu = (Button) findViewById(R.id.button_back_main);
         String tmp = "";
         if (isTram){
             tmp += "Tram ";
+            horloge.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclepurple));
+            back_menu.setBackgroundColor(getResources().getColor(R.color.deeppurple));
         }else{
             tmp += "Bus ";
+            horloge.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclegreen));
+            back_menu.setBackgroundColor(getResources().getColor(R.color.green));
         }
         tmp += currentRoute.getShortName()+"\nArret "+currentArret.getName()+"\nDirection "+nameDirection;
         text_title_route.setText(tmp);
@@ -143,9 +151,12 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
 
 
 
-        Button b_save = (Button) findViewById(R.id.button_save);
+        //Button b_save = (Button) findViewById(R.id.button_save);
+        ImageView b_save = (ImageView) findViewById(R.id.button_save);
+        TextView lbl_save = (TextView) findViewById(R.id.lbl_save);
         if (flagSaveButtonVisibility){
             b_save.setVisibility(View.VISIBLE);
+            lbl_save.setVisibility(View.VISIBLE);
             b_save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -158,6 +169,7 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
 
         }else{
             b_save.setVisibility(View.GONE);
+            lbl_save.setVisibility(View.GONE);
         }
 
         Button b_back_main = (Button) findViewById(R.id.button_back_main);
