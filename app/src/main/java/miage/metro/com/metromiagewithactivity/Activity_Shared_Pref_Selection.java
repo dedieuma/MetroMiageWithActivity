@@ -92,6 +92,9 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
 
 
 
+
+
+
     }
 
     private List getCodeArret(List<Data_Arret_Route_Direction> dataARD) {
@@ -108,16 +111,26 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (requestCode == 2) {
+        /*if (requestCode == 2) {
             if(resultCode == Activity.RESULT_OK){
-                Log.d("transition", "transition de activity_arret vers mainActivity");
+                Log.d("transition", "transition de activity_show vers activity_shared_pref");
                 setResult(Activity.RESULT_OK);
                 finish();
 
 
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                Log.d("Arret CANCEL", "CANCEL de activity_direction vers activity_arret");
+                Log.d("Arret CANCEL", "CANCEL de activity_show vers activity_shared_pref");
+            }
+        }*/
+        if(requestCode == 11){
+            if(resultCode == Activity.RESULT_OK){
+                Log.d("transition", "transition de activity_show vers activity_shared_pref");
+                setResult(Activity.RESULT_OK);
+                finish();
+            }
+            if (resultCode == Activity.RESULT_CANCELED){
+                Log.d("Arret CANCEL", "CANCEL de activity_show vers activity_shared_pref");
             }
         }
     }

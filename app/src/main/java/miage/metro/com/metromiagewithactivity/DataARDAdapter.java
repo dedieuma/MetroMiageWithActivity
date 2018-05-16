@@ -1,6 +1,7 @@
 package miage.metro.com.metromiagewithactivity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class DataARDAdapter extends ArrayAdapter<Data_Arret_Route_Direction> {
             viewHolder.nom_Arret = (TextView) convertView.findViewById(R.id.nom_Arret);
             viewHolder.nom_Ligne = (TextView) convertView.findViewById(R.id.nom_Ligne);
             viewHolder.nom_Direction = (TextView) convertView.findViewById(R.id.nom_Direction);
+
             convertView.setTag(viewHolder);
         }
 
@@ -46,6 +48,7 @@ public class DataARDAdapter extends ArrayAdapter<Data_Arret_Route_Direction> {
             viewHolder.nom_Ligne.setText(dataARD.getRoute().getType()+" "+dataARD.getRoute().getShortName());
             viewHolder.nom_Direction.setText("Direction : "+dataARD.getNameDirection());
         }
+
 
 
         return convertView;

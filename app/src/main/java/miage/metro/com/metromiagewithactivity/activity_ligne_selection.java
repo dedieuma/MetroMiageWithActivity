@@ -75,7 +75,8 @@ public class activity_ligne_selection extends AppCompatActivity {
                     }
                         // transformation des lignes de tram récupérées en tableau de layout
                         ListView ligne_liste = (ListView) findViewById(R.id.listview_selection_ligne);
-                        ArrayAdapter aa = new ArrayAdapter(getBaseContext(), R.layout.listview_selection_lignes, routes);
+                        //ArrayAdapter aa = new ArrayAdapter(getBaseContext(), R.layout.listview_selection_lignes, routes);
+                        SelectionLigneAdapter aa = new SelectionLigneAdapter(activity_ligne_selection.this, routes);
                         ligne_liste.setAdapter(aa);
 
                         // au clic sur une ligne du tableau, déclenchement de l'activité suivante : activity_arret_selection
