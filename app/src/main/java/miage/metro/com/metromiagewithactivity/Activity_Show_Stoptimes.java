@@ -150,10 +150,11 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
 
 
 
-
-        //Button b_save = (Button) findViewById(R.id.button_save);
         ImageView b_save = (ImageView) findViewById(R.id.button_save);
         TextView lbl_save = (TextView) findViewById(R.id.lbl_save);
+        ImageView button_map = (ImageView) findViewById(R.id.button_map);
+        TextView lbl_map = (TextView) findViewById(R.id.lbl_save);
+
         if (flagSaveButtonVisibility){
             b_save.setVisibility(View.VISIBLE);
             lbl_save.setVisibility(View.VISIBLE);
@@ -183,8 +184,6 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
         });
 
 
-        ImageView button_map = (ImageView) findViewById(R.id.button_map);
-        TextView lbl_map = (TextView) findViewById(R.id.lbl_save);
         button_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
