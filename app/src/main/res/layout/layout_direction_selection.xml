@@ -12,6 +12,15 @@
     android:gravity="center"
     android:id="@+id/ll">
 
+    <TextView
+        android:id="@+id/direction_selection_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/direction_selection"
+        android:textSize="24dp"
+        android:textStyle="bold" />
+
     <LinearLayout
         android:clipToPadding="false"
         android:gravity="center"

@@ -166,12 +166,13 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
                     Data_Arret_Route_Direction ard = new Data_Arret_Route_Direction(currentArret, currentRoute, choiceDirection, nameDirection);
                     storage.add(getApplicationContext(), ard);
                     Toast.makeText(getApplicationContext(), "Arret enregistré !", Toast.LENGTH_SHORT).show();
+                    view.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclegrey));
+                    view.setClickable(false);
                 }
             });
 
         }else{
-            b_save.setVisibility(View.GONE);
-            lbl_save.setVisibility(View.GONE);
+            b_save.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclegrey));
         }
 
         Button b_back_main = (Button) findViewById(R.id.button_back_main);
