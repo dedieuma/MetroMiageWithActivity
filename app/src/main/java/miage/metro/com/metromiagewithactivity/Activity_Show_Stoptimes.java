@@ -183,7 +183,8 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
         });
 
 
-        Button button_map = (Button) findViewById(R.id.button_map);
+        ImageView button_map = (ImageView) findViewById(R.id.button_map);
+        TextView lbl_map = (TextView) findViewById(R.id.lbl_save);
         button_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
