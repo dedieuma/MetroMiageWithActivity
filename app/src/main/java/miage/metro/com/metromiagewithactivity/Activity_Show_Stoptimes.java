@@ -64,15 +64,16 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
         // Texte de résumé de la ligne, arret, direction
         TextView text_title_route = (TextView) findViewById(R.id.text_title_route);
         ImageView horloge = (ImageView) findViewById(R.id.horloge_icon);
+        ImageView trambus = (ImageView) findViewById(R.id.trambus_icon);
         Button back_menu = (Button) findViewById(R.id.button_back_main);
         String tmp = "";
         if (isTram){
             tmp += "Tram ";
-            horloge.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclepurple));
-            back_menu.setBackgroundColor(getResources().getColor(R.color.deeppurple));
         }else{
             tmp += "Bus ";
-            horloge.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclegreen));
+            horloge.setBackgroundResource(R.drawable.cerclegreen);
+            trambus.setBackgroundResource(R.drawable.cerclegreen);
+            trambus.setImageResource(R.drawable.ic_directions_bus_black_24dp);
             back_menu.setBackgroundColor(getResources().getColor(R.color.green));
         }
         tmp += currentRoute.getShortName()+"\nArret "+currentArret.getName()+"\nDirection "+nameDirection;
@@ -155,10 +156,11 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
         ImageView button_map = (ImageView) findViewById(R.id.button_map);
         TextView lbl_map = (TextView) findViewById(R.id.lbl_save);
 
+        //Si cet arrêt est déjà enregistré en favori
         StorageService storage = new StorageImpl();
         Data_Arret_Route_Direction ard = new Data_Arret_Route_Direction(currentArret, currentRoute, choiceDirection, nameDirection);
-        if(storage.exists(getApplicationContext(), ard)) {
-            b_save.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclegrey));
+        if(storage.isFavori(getApplicationContext(), ard)) {
+            b_save.setBackgroundResource(R.drawable.cerclegrey);
             b_save.setClickable(false);
             flagSaveButtonVisibility = false;
         }
@@ -171,13 +173,13 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
                     Data_Arret_Route_Direction ard = new Data_Arret_Route_Direction(currentArret, currentRoute, choiceDirection, nameDirection);
                     storage.add(getApplicationContext(), ard);
                     Toast.makeText(getApplicationContext(), "Arret enregistré !", Toast.LENGTH_SHORT).show();
-                    view.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclegrey));
+                    view.setBackgroundResource(R.drawable.cerclegrey);
                     view.setClickable(false);
                 }
             });
 
         }else{
-            b_save.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclegrey));
+            b_save.setBackgroundResource(R.drawable.cerclegrey);
         }
 
         Button b_back_main = (Button) findViewById(R.id.button_back_main);
