@@ -171,6 +171,24 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
         });
 
 
+        Button button_map = (Button) findViewById(R.id.button_map);
+        button_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stopService(arretIntent);
+
+                Bundle b= new Bundle();
+                b.putDouble("latitude", currentArret.getLat());
+                b.putDouble("longitude", currentArret.getLon());
+                b.putString("nameArret", currentArret.getName());
+
+                Intent i = new Intent(getApplicationContext(), activity_map.class);
+                i.putExtras(b);
+                startActivityForResult(i, 100);
+
+
+            }
+        });
 
     }
 

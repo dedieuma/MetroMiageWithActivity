@@ -69,6 +69,9 @@ public class StorageImpl implements StorageService {
 
     @Override
     public void add(Context context, Data_Arret_Route_Direction ard) {
+        if (exitsts(context, ard)){
+            return;
+        }
         SharedPreferences preferences = context.getSharedPreferences(sharedPrefName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
@@ -84,6 +87,21 @@ public class StorageImpl implements StorageService {
 
         dataARD.add(ard);
         store(context, dataARD);
+
+    }
+
+    public boolean exitsts(Context context, Data_Arret_Route_Direction ard){
+        List<Data_Arret_Route_Direction> dataARD = restore(context);
+
+        if (dataARD == null) return false;
+
+        for (Data_Arret_Route_Direction localArd: dataARD) {
+            if (localArd.getNameDirection().equals(ard.getNameDirection())){
+                return true;
+            }
+        }
+
+        return false;
 
     }
 }
