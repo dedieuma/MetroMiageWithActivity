@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -49,14 +50,16 @@ boolean isTram;
 
 
         // Gestion des 2 boutons de sélection
-        ImageView b_term_1 = (ImageView) findViewById(R.id.button_terminus1);
-        ImageView b_term_2 = (ImageView) findViewById(R.id.button_terminus2);
+        CardView b_term_1 = (CardView) findViewById(R.id.button_terminus1);
+        CardView b_term_2 = (CardView) findViewById(R.id.button_terminus2);
+        ImageView button_left = (ImageView) findViewById(R.id.button_left);
+        ImageView button_right = (ImageView) findViewById(R.id.button_right);
         if(isTram){
-            b_term_1.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclepurple));
-            b_term_2.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclepurple));
+            button_left.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclepurple));
+            button_right.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclepurple));
         } else {
-            b_term_1.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclegreen));
-            b_term_2.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclegreen));
+            button_left.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclegreen));
+            button_right.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.cerclegreen));
         }
 
         TextView text_term_1 = (TextView) findViewById(R.id.text_terminus1);

@@ -222,14 +222,15 @@
             android:clickable="true"
             android:layout_width="340dp"
             android:layout_height="150dp"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            android:id="@+id/button_terminus1">
             <LinearLayout
                 android:layout_width="96dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:gravity="center">>
                 <ImageView
-                    android:id="@+id/button_terminus1"
+                    android:id="@+id/button_left"
                     android:layout_width="96dp"
                     android:layout_height="96dp"
                     android:background="@drawable/cerclepink"
@@ -246,8 +247,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:layout_marginTop="10dp"
-                    android:text="1"/>
+                    android:layout_marginTop="10dp" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>
@@ -259,6 +259,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <android.support.v7.widget.CardView
+            android:id="@+id/button_terminus2"
             android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:layout_width="340dp"
@@ -275,8 +276,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:layout_marginTop="10dp"
-                    android:text="2"/>
+                    android:layout_marginTop="10dp" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="96dp"
@@ -284,7 +284,7 @@
                 android:gravity="center"
                 android:layout_marginLeft="244dp">
                 <ImageView
-                    android:id="@+id/button_terminus2"
+                    android:id="@+id/button_right"
                     android:layout_width="96dp"
                     android:layout_height="96dp"
                     android:background="@drawable/cerclepink"
