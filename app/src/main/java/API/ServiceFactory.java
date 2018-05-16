@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import API.StopTime.StopTime;
+import API.StopTime.Time;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -55,6 +56,12 @@ public class ServiceFactory {
         return trams;
     }
 
+    /***
+     * getBusLigne(Liste<Route> body)
+     * renvoie la liste des Route de bus venant de la liste de Route du paramètre "body"
+     * @param body
+     * @return
+     */
     public List<Route> getBusLigne(List<Route> body) {
         List<Route> bus = new ArrayList<>();
         for (Route ligne:body) {
@@ -68,7 +75,7 @@ public class ServiceFactory {
 
     /**
      * getTramLignesToString(List<Route> trams)
-     * construit la liste de nom des trams à afficher sur le layout à partir de la liste de Route "trams"
+     * construit la liste de nom des trams à afficher sur le layout à partir du paramètre "trams", qui est une liste de Route
      * De plus, les classe alphabétiquement
      * @param trams
      * @return
@@ -85,6 +92,12 @@ public class ServiceFactory {
     }
 
 
+    /***
+     * getBusLigneToString(List<Route> listRoutes)
+     * construit la liste de nom des bus à afficher sur le layout à partir du paramètre "listRoutes", qui est une liste de Route
+     * @param listRoutes
+     * @return
+     */
     public List<String> getBusLigneToString(List<Route> listRoutes) {
 
         List<String> busString = new ArrayList<>();
@@ -137,35 +150,34 @@ public class ServiceFactory {
     /**
      * isTheSameRoute(String id, String currentRoute)
      * vérifie que le stopTime en cours de traitement et la route choisie soient les mêmes
-     * @param id
+     * @param stopTime
      * @param currentRoute
      * @return
      */
-    private boolean isTheSameRoute(String id, String currentRoute) {
-        String[] splitted = id.split(":");
+    private boolean isTheSameRoute(String stopTime, String currentRoute) {
+        String[] splitted = stopTime.split(":");
         return splitted[1].equals(currentRoute);
     }
 
-    /**
-     * getDrawingTime(Integer realtimeDeparture)
-     * Renvoie sous forme de String le champ à afficher indiquant le temps restant pour le passage du prochain arret.
-     * "realtimeDeparture" est le nombre de secondes depuis minuit à l'heure laquelle le prochain passage se fait
-     * @param realtimeDeparture
+
+    /***
+     * getDrawingTime(List<Time> times)
+     * renvoie sous forme de ArrayList<String> les différents horaires à afficher, venant de la liste de times qui vient de l'API
+     * @param times
      * @return
      */
-    public String getDrawingTime(Integer realtimeDeparture) {
-        /*Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        Date date = new Date(realtimeDeparture);
-        DateFormat formatter = new SimpleDateFormat("HH:mm:ss");*/
+    public ArrayList<String> getDrawingTime(List<Time> times) {
 
         int currentTimeStamp = toSeconds(new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
 
-        String nextStop = toNextStop(realtimeDeparture, currentTimeStamp);
-
-        return nextStop;
+        ArrayList<String> stringTimes = new ArrayList<>();
+        for (Time t : times){
+            stringTimes.add(toNextStop(t.getRealtimeDeparture(), currentTimeStamp));
+        }
+        return stringTimes;
 
     }
-
+    
     /**
      * toNextStop(Integer realtimeDeparture, int currentTimeStamp)
      * calcule la différence entre l'heure actuelle et l'heure du prochain passage.

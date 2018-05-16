@@ -23,9 +23,18 @@ public class StorageImpl implements StorageService {
     private final String sharedPrefName = "metroPref";
     private final String sharedPrefStringName = "Data_ARD";
 
-    @Override
-    public boolean store(Context context, List<Data_Arret_Route_Direction> ard) {
 
+    /***
+     * store
+     * enregistre la liste de DataARD passée en paramètre
+     * @param context
+     * @param ard
+     * @return
+     */
+    @Override
+    public boolean store(Context context, List<Data_Arret_Route_Direction> ard) throws Exception {
+
+        if (ard == null) throw new Exception("ard can't be null");
         SharedPreferences preferences = context.getSharedPreferences(sharedPrefName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
@@ -37,6 +46,12 @@ public class StorageImpl implements StorageService {
 
     }
 
+    /***
+     * restore
+     * retourne la liste de DataARD qui était stockée
+     * @param context
+     * @return
+     */
     @Override
     public List<Data_Arret_Route_Direction> restore(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(sharedPrefName, Context.MODE_PRIVATE);
@@ -50,16 +65,18 @@ public class StorageImpl implements StorageService {
         return dataARD;
     }
 
+    /***
+     * clear
+     * retourne la liste de DataARD qui était stockée, puis supprime la base
+     * @param context
+     * @return
+     */
     @Override
     public List<Data_Arret_Route_Direction> clear(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(sharedPrefName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
-        Gson gson = new Gson();
-        String json = preferences.getString(sharedPrefStringName, "");
-
-        Type listType = new TypeToken<ArrayList<Data_Arret_Route_Direction>>(){}.getType();
-        List<Data_Arret_Route_Direction> dataARD = gson.fromJson(json, listType);
+        List<Data_Arret_Route_Direction> dataARD = restore(context);
 
         editor.clear();
         editor.commit();
@@ -67,9 +84,15 @@ public class StorageImpl implements StorageService {
         return dataARD;
     }
 
+    /***
+     * add
+     * ajoute à la liste stockée le nouvel ARD passé en paramètre
+     * @param context
+     * @param ard
+     */
     @Override
     public void add(Context context, Data_Arret_Route_Direction ard) {
-        if (exists(context, ard)){
+        if (isFavori(context, ard)){
             return;
         }
         SharedPreferences preferences = context.getSharedPreferences(sharedPrefName, Context.MODE_PRIVATE);
@@ -86,10 +109,14 @@ public class StorageImpl implements StorageService {
         }
 
         dataARD.add(ard);
-        store(context, dataARD);
+        try {
+            store(context, dataARD);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
-
+/*
     public boolean exists(Context context, Data_Arret_Route_Direction ard){
         List<Data_Arret_Route_Direction> dataARD = restore(context);
 
@@ -103,7 +130,7 @@ public class StorageImpl implements StorageService {
 
         return false;
 
-    }
+    }*/
 
 
     public boolean isFavori(Context context, Data_Arret_Route_Direction ard){

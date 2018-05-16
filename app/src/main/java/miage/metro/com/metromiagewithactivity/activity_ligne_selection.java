@@ -36,14 +36,17 @@ public class activity_ligne_selection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_ligne_selection);
 
-        // le ServiceFactory apporte les méthodes de traitement des données reçus par l'API
+        // le ServiceFactory apporte les méthodes de traitement des données reçues par l'API
         treatment = new ServiceFactory();
+
+        // Bundle : récupération des paramètres de l'activité qui a lancé cette activité présente
         Bundle b = getIntent().getExtras();
         if (b!=null){
             isTram = b.getBoolean("isTram");
         }
 
 
+        // Texte Pop-up
         final TextView txt_traitement_ligne = (TextView) findViewById(R.id.txt_traitement_ligne);
         txt_traitement_ligne.setVisibility(View.VISIBLE);
         txt_traitement_ligne.setText("En cours...");
@@ -76,6 +79,8 @@ public class activity_ligne_selection extends AppCompatActivity {
                         // transformation des lignes de tram récupérées en tableau de layout
                         ListView ligne_liste = (ListView) findViewById(R.id.listview_selection_ligne);
                         //ArrayAdapter aa = new ArrayAdapter(getBaseContext(), R.layout.listview_selection_lignes, routes);
+
+                        // Adapter qui permet l'alternance des couleurs entre 2 lignes de la ListView
                         SelectionLigneAdapter aa = new SelectionLigneAdapter(activity_ligne_selection.this, routes);
                         ligne_liste.setAdapter(aa);
 
@@ -115,7 +120,7 @@ public class activity_ligne_selection extends AppCompatActivity {
                 }else{
                     Log.e("ligne_sel_not_succesful", response.code()+" "+response.raw().message());
                     txt_traitement_ligne.setVisibility(View.VISIBLE);
-                    txt_traitement_ligne.setText(response.code()+ " "+response.raw().message());
+                    txt_traitement_ligne.setText("Erreur lors du contact de l'API\n"+response.code()+ " "+response.raw().message());
                 }
             }
 
@@ -123,7 +128,7 @@ public class activity_ligne_selection extends AppCompatActivity {
             public void onFailure(Call<List<Route>> call, Throwable t) {
                 Log.e("ligne_sel fail", t.getMessage());
                 txt_traitement_ligne.setVisibility(View.VISIBLE);
-                txt_traitement_ligne.setText(t.getMessage());
+                txt_traitement_ligne.setText("Erreur lors du contact de l'API\n"+t.getMessage());
             }
         });
 
@@ -165,6 +170,14 @@ public class activity_ligne_selection extends AppCompatActivity {
     }
 
 
+    /***
+     * getRouteFromShortName
+     * retourne la route correspondante au string cliqué dans la listView
+     * @param position
+     * @param routes
+     * @param listRoutes
+     * @return
+     */
     private Route getRouteFromShortName(int position, List<String> routes, List<Route> listRoutes) {
         String myShortName = routes.get(position);
         String[] evenShorter = myShortName.split(" ");

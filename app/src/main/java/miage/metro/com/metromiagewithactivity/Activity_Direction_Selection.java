@@ -87,6 +87,7 @@ boolean isTram;
 
     }
 
+    // lance activity_show_stoptimes avec la direction n°choiceDiretion
     private void launchActivityShowStopTimes(int choiceDirection) {
 
         Intent i = new Intent(getBaseContext(), Activity_Show_Stoptimes.class);
@@ -103,13 +104,13 @@ boolean isTram;
         b.putBoolean("flagSaveButton", true);
         b.putBoolean("isTram", isTram);
         i.putExtras(b);
-        startActivityForResult(i, 4);
+        startActivityForResult(i, 5);
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (requestCode == 4) {
+        if (requestCode == 5) {
             if(resultCode == Activity.RESULT_OK){
                 Log.d("Direction OK", "transition de Activity_show_stoptime vers activity_direction");
                 setResult(Activity.RESULT_OK);

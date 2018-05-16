@@ -24,6 +24,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
+/**
+ * activity_arret_selection
+ * Choix de la ligne
+ */
 public class activity_arret_selection extends AppCompatActivity {
     Route currentRoute;
     boolean isTram;
@@ -41,6 +46,8 @@ public class activity_arret_selection extends AppCompatActivity {
             currentRoute = (Route) b.getSerializable("route");
             isTram = b.getBoolean("isTram");
         }
+
+        // Texte Pop-up
         final TextView treatment_message = (TextView) findViewById(R.id.txt_traitement_arret);
         treatment_message.setVisibility(View.VISIBLE);
         treatment_message.setText("En cours...");
@@ -53,7 +60,9 @@ public class activity_arret_selection extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<List<Arret>> call, Response<List<Arret>> response) {
                     if(response.isSuccessful()){
+                        // Liste des Arrets
                         final List<Arret> arretsTram = response.body();
+                        // Liste des String, le nom des arrets
                         final List<String> arretsString = treatment.getArretsLignesToString(arretsTram);
 
                         treatment_message.setVisibility(View.INVISIBLE);
@@ -67,6 +76,7 @@ public class activity_arret_selection extends AppCompatActivity {
                             @Override
                             public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
 
+                                // Récupération des noms des terminus et de l'arret sélectionné
                                 String terminus1 = arretsString.get(0);
                                 String terminus2 = arretsString.get(arretsString.size()-1);
                                 Arret arretSelected = arretsTram.get(position);
@@ -76,17 +86,24 @@ public class activity_arret_selection extends AppCompatActivity {
 
                                 // Si on a choisi un terminus, il ne faut pas demander à l'utilisateur
                                 // quelle direction prendre
+                                // Si c'est le cas, on lance directement activity_show_stoptimes
+                                // Terminus 1
                                 if(terminus1.equals(arretSelected.getCity()+" - "+arretSelected.getName())){
                                     Intent i = new Intent(getBaseContext(), Activity_Show_Stoptimes.class);
 
                                     b.putSerializable("arret", arretSelected);
+                                    // choiceDirection : numéro de la direction à prendre
                                     b.putInt("choiceDirection", 1);
                                     b.putString("nameDirection", terminus2);
+                                    // flagSaveButton : booléen indiquant à activity_show_stoptimes si il faut afficher le bouton de sauvegarde de l'arret
                                     b.putBoolean("flagSaveButton", true);
                                     b.putBoolean("isTram", isTram);
                                     i.putExtras(b);
                                     startActivityForResult(i, 4);
-                                }else if (terminus2.equals(arretSelected.getCity()+" - "+arretSelected.getName())) {
+
+
+                                }else // Terminus 2
+                                    if (terminus2.equals(arretSelected.getCity()+" - "+arretSelected.getName())) {
                                     Intent i = new Intent(getBaseContext(), Activity_Show_Stoptimes.class);
 
                                     b.putSerializable("arret", arretSelected);
@@ -96,7 +113,10 @@ public class activity_arret_selection extends AppCompatActivity {
                                     b.putBoolean("isTram", isTram);
                                     i.putExtras(b);
                                     startActivityForResult(i, 4);
-                                }else{
+
+
+                                }else // C'est pas un terminus ! On lance Activity_Direction_Selection
+                                    {
                                     // Création de l'activité suivante
                                     Intent i = new Intent(getBaseContext(), Activity_Direction_Selection.class);
 
@@ -128,7 +148,7 @@ public class activity_arret_selection extends AppCompatActivity {
                     Log.e("arret_sel fail", t.getMessage());
                     Toast.makeText(activity_arret_selection.this, "Une erreur s'est produite lors de l'appel à l'API. Veuillez réessayer", Toast.LENGTH_LONG);
                     treatment_message.setVisibility(View.VISIBLE);
-                    treatment_message.setText(t.getMessage());
+                    treatment_message.setText("Une erreur s'est produite lors de l'appel à l'API\n"+t.getMessage());
                 }
             });
 

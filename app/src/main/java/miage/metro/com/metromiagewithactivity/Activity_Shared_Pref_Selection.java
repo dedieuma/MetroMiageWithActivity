@@ -37,6 +37,7 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_ligne_selection);
 
+        // Texte Pop-up
         TextView state_txt = (TextView)findViewById(R.id.txt_traitement_ligne);
         state_txt.setVisibility(View.INVISIBLE);
 
@@ -46,16 +47,23 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
         final StorageService storageService = new StorageImpl();
         final List<Data_Arret_Route_Direction> dataARD = storageService.restore(getApplicationContext());
 
+        // Si on a rien sauvegardé
+        // C'est un bout de code de sécurité, normalement on n'est pas censé entrer dedans car on vérifie
+        // au préalable si on a stocké quelque chose ou non
         if(dataARD == null || dataARD.size() == 0){
             //Toast.makeText(getApplicationContext(), "Aucun arret sauvegardé !", Toast.LENGTH_SHORT);
             finish();
             return;
         }
+        // Instance spéciale de DataARD qui permet de rajouter une ligne à la listView,
+        // permet de supprimer les données
         dataARD.add(Data_Arret_Route_Direction.ARDEffacer());
 
 
         ListView ligne_liste = (ListView) findViewById(R.id.listview_selection_ligne);
         //ArrayAdapter aa = new ArrayAdapter(getBaseContext(), R.layout.listview_selection_lignes, getCodeArret(dataARD));
+
+        // Adapter permettant l'affichage des ARD
         DataARDAdapter aa = new DataARDAdapter(Activity_Shared_Pref_Selection.this, dataARD);
 
         ligne_liste.setAdapter(aa);
@@ -64,6 +72,7 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
 
+                // Si on a cliqué sur ARDEffacer, on supprime la base
                 if (position == dataARD.size()-1){
                     storageService.clear(getApplicationContext());
                     finish();
@@ -71,6 +80,7 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
                     Intent i = new Intent(getBaseContext(), Activity_Show_Stoptimes.class);
                     Bundle b = new Bundle();
 
+                    // Préparation de activity_show_stoptimes
                     b.putSerializable("arret", dataARD.get(position).getArret());
                     b.putSerializable("route", dataARD.get(position).getRoute());
                     b.putInt("choiceDirection", dataARD.get(position).getDirection());
@@ -97,32 +107,10 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
 
     }
 
-    private List getCodeArret(List<Data_Arret_Route_Direction> dataARD) {
-
-        List<String> myArrets = new ArrayList<>();
-        for(Data_Arret_Route_Direction ard : dataARD){
-            myArrets.add(ard.getArret().getName());
-        }
-        return myArrets;
-
-    }
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        /*if (requestCode == 2) {
-            if(resultCode == Activity.RESULT_OK){
-                Log.d("transition", "transition de activity_show vers activity_shared_pref");
-                setResult(Activity.RESULT_OK);
-                finish();
 
-
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                Log.d("Arret CANCEL", "CANCEL de activity_show vers activity_shared_pref");
-            }
-        }*/
         if(requestCode == 11){
             if(resultCode == Activity.RESULT_OK){
                 Log.d("transition", "transition de activity_show vers activity_shared_pref");
@@ -136,21 +124,5 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
     }
 
 
-    /**
-     * getRouteFromPosition
-     * retourne la Route correspondante à sa position dans le tableau ListView
-     * @param position
-     * @param routes
-     * @return
-     */
-    private Route getRouteFromPosition(int position, List<Route> routes) {
-        char a = (char)((position)+'A');
-        for(Route r:routes){
-            if(r.getShortName().equals(Character.toString(a))){
-                return r;
-            }
-        }
-        return null;
-    }
 
 }

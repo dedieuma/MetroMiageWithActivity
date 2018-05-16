@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import API.Arret;
 import API.Route;
 import API.ServiceFactory;
@@ -57,11 +59,13 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
             currentRoute = (Route)b.getSerializable("route");
             choiceDirection = b.getInt("choiceDirection");
             nameDirection = b.getString("nameDirection");
+            // indique si le bouton de sauvegarde doit être activé ou non (si l'arret est déjà enregistré ou non)
             flagSaveButtonVisibility = b.getBoolean("flagSaveButton");
             isTram = b.getBoolean("isTram");
         }
 
         // Texte de résumé de la ligne, arret, direction
+        // Panneau du haut résumant les caractéristiques de l'ARD choisis
         TextView text_title_route = (TextView) findViewById(R.id.text_title_route);
         ImageView horloge = (ImageView) findViewById(R.id.horloge_icon);
         ImageView trambus = (ImageView) findViewById(R.id.trambus_icon);
@@ -109,9 +113,9 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if(intent.getStringExtra("stopTime").equals("")){
+                if(!intent.getStringExtra("errorMsg").equals("")){
                     TextView text_time = (TextView) findViewById(R.id.text_next_time);
-                    text_time.setText("Erreur lors de la requete à l'API MetroMobilité");
+                    text_time.setText("Erreur lors de la requête à l'API\n\n"+intent.getStringExtra("errorMsg"));
                 }else {
 
 
@@ -125,18 +129,26 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
                     final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(Activity_Show_Stoptimes.this)
                             .setSmallIcon(android.R.drawable.sym_def_app_icon)
                             .setContentTitle(currentArret.getName())
-                            .setContentText("Passage dans " + intent.getStringExtra("stopTime"))
+                            .setContentText("Passage dans " + intent.getStringArrayListExtra("stopTime").get(0))
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                            .setAutoCancel(true)
-                            .addAction(android.R.drawable.ic_menu_compass, "Voir détails",
-                                    intentPendingReceive);
+                            .setAutoCancel(true);
+                            /*.addAction(android.R.drawable.ic_menu_compass, "Voir détails",
+                                    intentPendingReceive);*/
+                            // Ne marche plus depuis qu'on a fait en sorte que lorsqu'on retourne au menu principal,
+                            // l'activité se finish()
 
                     NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(Activity_Show_Stoptimes.this);
                     notificationManagerCompat.notify(8, mBuilder.build());
 
                     // Li piti texte qui s'affiche
                     TextView text_time = (TextView) findViewById(R.id.text_next_time);
-                    text_time.setText("Prochain passage dans\n" + intent.getStringExtra("stopTime"));
+                    ArrayList<String> stopTimes = intent.getStringArrayListExtra("stopTime");
+                    if (stopTimes.size() == 1){
+                        text_time.setText("Prochain passage dans\n"+stopTimes.get(0));
+                    }else{
+                        text_time.setText("1er passage dans\n" + stopTimes.get(0)+"\n\n2e passage dans\n"+stopTimes.get(1));
+                    }
+
                 }
 
             }
@@ -151,6 +163,7 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
 
 
 
+        // Boutons de sauvegarde et de la map
         ImageView b_save = (ImageView) findViewById(R.id.button_save);
         TextView lbl_save = (TextView) findViewById(R.id.lbl_save);
         ImageView button_map = (ImageView) findViewById(R.id.button_map);
@@ -165,11 +178,13 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
             flagSaveButtonVisibility = false;
         }
 
+        // si le bouton de sauvegarde doit etre activé
         if (flagSaveButtonVisibility){
             b_save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     StorageService storage = new StorageImpl();
+                    // Stockage de l'ARD local
                     Data_Arret_Route_Direction ard = new Data_Arret_Route_Direction(currentArret, currentRoute, choiceDirection, nameDirection);
                     storage.add(getApplicationContext(), ard);
                     Toast.makeText(getApplicationContext(), "Arret enregistré !", Toast.LENGTH_SHORT).show();
@@ -182,10 +197,12 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
             b_save.setBackgroundResource(R.drawable.cerclegrey);
         }
 
+        // Bouton de retour au menu principal
         Button b_back_main = (Button) findViewById(R.id.button_back_main);
         b_back_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                handler.removeCallbacks(runnable);
                 stopService(arretIntent);
                 setResult(Activity.RESULT_OK);
                 finish();
@@ -193,11 +210,14 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
         });
 
 
+        // Bouton de la map
         button_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                handler.removeCallbacks(runnable);
                 stopService(arretIntent);
 
+                // Passage de la longitude et la latitude à l'intent
                 Bundle b= new Bundle();
                 b.putDouble("latitude", currentArret.getLat());
                 b.putDouble("longitude", currentArret.getLon());
@@ -211,9 +231,11 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
             }
         });
 
+        // Au clic sur l'horloge, rafaichissement immédiat de l'heure indiquée
         horloge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //handler.removeCallbacks(runnable);
                 stopService(arretIntent);
                 startService(arretIntent);
             }

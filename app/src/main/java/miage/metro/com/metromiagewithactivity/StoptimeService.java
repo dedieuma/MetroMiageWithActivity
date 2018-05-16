@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import API.Arret;
@@ -42,36 +43,61 @@ public class StoptimeService extends IntentService{
             currentRoute = (Route)b.getSerializable("route");
             choiceDirection = b.getInt("choiceDirection");
         }
+
+        // Appel des stoptimes
+        // Exemple : https://data.metromobilite.fr/api/routers/default/index/clusters/SEM:GENALSACELO/stoptimes
         MetroInterface service = ServiceFactory.getInstance();
         service.getStopTimes(currentArret.getCode()).enqueue(new Callback<List<StopTime>>() {
             @Override
             public void onResponse(Call<List<StopTime>> call, Response<List<StopTime>> response) {
+                Intent localIntent = new Intent("ACTION_DONE");
                 if(response.isSuccessful()){
                     ServiceFactory treatment = new ServiceFactory();
                     List<StopTime> stopTimes = treatment.getStopTime(response.body(), currentRoute.getShortName(), choiceDirection);
 
-                    Intent localIntent = new Intent("ACTION_DONE");
-                    if(stopTimes == null || stopTimes.size() == 0 || stopTimes.get(0).getTimes()==null || stopTimes.get(0).getTimes().size() == 0 || stopTimes.get(0).getTimes().get(0).getRealtimeDeparture() == null){
+
+                    if(stopTimes == null || stopTimes.size() == 0 || stopTimes.get(0).getTimes()==null){
                         try {
-                            localIntent.putExtra("stopTime", "");
+                            //localIntent.putExtra("stopTime", "");
+                            localIntent.putExtra("errorMsg", "Erreur de lecture des Stoptimes");
                             throw new Exception("Erreur de parse de stopTimes");
 
 
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                    }else if (stopTimes.get(0).getTimes().size() == 0 || stopTimes.get(0).getTimes().get(0).getRealtimeDeparture() == null) {
+                        try {
+                            //localIntent.putExtra("stopTime", "");
+                            ArrayList<String> vide = new ArrayList<>();
+                            vide.add("Il n'y a pas de prochain départ...");
+                            localIntent.putExtra("stopTime", vide);
+                            throw new Exception("Pas de prochain départ");
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }else{
-                        int realTimeDeparture = stopTimes.get(0).getTimes().get(0).getRealtimeDeparture();
-                        localIntent.putExtra("stopTime", treatment.getDrawingTime(realTimeDeparture));
+                        //int realTimeDeparture = stopTimes.get(0).getTimes().get(0).getRealtimeDeparture();
+                        //localIntent.putExtra("stopTime", treatment.getDrawingTime(realTimeDeparture));
+                        localIntent.putExtra("stopTime", treatment.getDrawingTime(stopTimes.get(0).getTimes()));
+                        localIntent.putExtra("errorMsg", "");
+
                     }
 
-                    LocalBroadcastManager.getInstance(StoptimeService.this).sendBroadcast(localIntent);
+
 
 
                 }else{
+                    //localIntent.putExtra("stopTime", "");
+                    localIntent.putExtra("errorMsg", response.code()+ " "+response.raw().message());
                     Log.e("StoptimeService", "Error Message : "+response.message());
 
                 }
+
+                LocalBroadcastManager.getInstance(StoptimeService.this).sendBroadcast(localIntent);
             }
 
 
@@ -86,5 +112,10 @@ public class StoptimeService extends IntentService{
 
             }
         });
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
     }
 }

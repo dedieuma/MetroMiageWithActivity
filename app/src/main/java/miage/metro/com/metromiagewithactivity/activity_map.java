@@ -40,6 +40,8 @@ private Marker mCurrLocationMarker;
 private Double latitudeArret, longitudeArret;
 private String nameArret;
 
+
+// en cours
 @Override
     protected void onCreate(Bundle savedInstanceState){
     super.onCreate(savedInstanceState);
