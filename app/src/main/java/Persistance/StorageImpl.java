@@ -118,7 +118,13 @@ public class StorageImpl implements StorageService {
     }
 
 
-
+    /***
+     * isFavori
+     * renvoie true si ard est déjà enregistré dans les SharedPreferences
+     * @param context
+     * @param ard
+     * @return
+     */
     public boolean isFavori(Context context, Data_Arret_Route_Direction ard){
         List<Data_Arret_Route_Direction> dataARD = restore(context);
 
@@ -134,6 +140,13 @@ public class StorageImpl implements StorageService {
         return false;
     }
 
+    /***
+     * delete
+     * supprime des SharedPreferecnes l'ard passé en paramètre, et le retourne
+     * @param context
+     * @param ard
+     * @return
+     */
     @Override
     public Data_Arret_Route_Direction delete(Context context, Data_Arret_Route_Direction ard) {
         if(!isFavori(context, ard)){

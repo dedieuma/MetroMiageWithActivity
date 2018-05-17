@@ -72,6 +72,7 @@ public class StoptimeService extends IntentService{
                             ArrayList<String> vide = new ArrayList<>();
                             vide.add("Il n'y a pas de prochain départ...");
                             localIntent.putExtra("stopTime", vide);
+                            localIntent.putExtra("errorMsg", "Pas de prochain départ");
                             throw new Exception("Pas de prochain départ");
 
 

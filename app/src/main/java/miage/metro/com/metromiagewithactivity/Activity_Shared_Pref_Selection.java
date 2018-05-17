@@ -3,6 +3,7 @@ package miage.metro.com.metromiagewithactivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +32,10 @@ import retrofit2.Response;
 
 public class Activity_Shared_Pref_Selection extends AppCompatActivity {
 
+    DataARDAdapter aa;
+    List<Data_Arret_Route_Direction> dataARD;
+    StorageService storageService;
+    ListView ligne_liste;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +49,8 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
         // le ServiceFactory apporte les méthodes de traitement des données reçus par l'API
 
 
-        final StorageService storageService = new StorageImpl();
-        final List<Data_Arret_Route_Direction> dataARD = storageService.restore(getApplicationContext());
+        storageService = new StorageImpl();
+        dataARD = storageService.restore(getApplicationContext());
 
         // Si on a rien sauvegardé
         // C'est un bout de code de sécurité, normalement on n'est pas censé entrer dedans car on vérifie
@@ -57,14 +62,15 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
         }
         // Instance spéciale de DataARD qui permet de rajouter une ligne à la listView,
         // permet de supprimer les données
-        dataARD.add(Data_Arret_Route_Direction.ARDEffacer());
+        // Remplacé par le floating action button
+        //dataARD.add(Data_Arret_Route_Direction.ARDEffacer());
 
 
-        ListView ligne_liste = (ListView) findViewById(R.id.listview_selection_ligne);
+        ligne_liste = (ListView) findViewById(R.id.listview_selection_ligne);
         //ArrayAdapter aa = new ArrayAdapter(getBaseContext(), R.layout.listview_selection_lignes, getCodeArret(dataARD));
 
         // Adapter permettant l'affichage des ARD
-        DataARDAdapter aa = new DataARDAdapter(Activity_Shared_Pref_Selection.this, dataARD);
+        aa = new DataARDAdapter(Activity_Shared_Pref_Selection.this, dataARD);
 
         ligne_liste.setAdapter(aa);
 
@@ -73,10 +79,10 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
             public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
 
                 // Si on a cliqué sur ARDEffacer, on supprime la base
-                if (position == dataARD.size()-1){
+                /*if (position == dataARD.size()-1){
                     storageService.clear(getApplicationContext());
                     finish();
-                }else {
+                }else {*/
                     Intent i = new Intent(getBaseContext(), Activity_Show_Stoptimes.class);
                     Bundle b = new Bundle();
 
@@ -97,6 +103,18 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
                     startActivityForResult(i, 11);
                 }
 
+            //}
+        });
+
+
+        // Fab qui permet de supprimer les arrets enregistrés
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_clear);
+        fab.setVisibility(View.VISIBLE);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                storageService.clear(getApplicationContext());
+                finish();
             }
         });
 
@@ -107,6 +125,24 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        // Tentative de mise à jour de la list_view quand on décide de supprimer un arret enregistré et que l'on revient sur la liste.
+
+        //aa.clear();
+        //ligne_liste.clearChoices();
+        dataARD.clear();
+        dataARD.addAll(storageService.restore(getApplicationContext()));
+        if(dataARD.size() == 0){
+            setResult(Activity.RESULT_OK);
+            finish();
+        }
+        //dataARD.add(Data_Arret_Route_Direction.ARDEffacer());
+        aa.notifyDataSetChanged();
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){

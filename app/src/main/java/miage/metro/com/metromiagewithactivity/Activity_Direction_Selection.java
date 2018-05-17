@@ -48,7 +48,12 @@ boolean isTram;
             isTram = b.getBoolean("isTram");
         }
 
+        manageCardViewButtonsDirection();
 
+
+    }
+
+    private void manageCardViewButtonsDirection() {
         // Gestion des 2 boutons de sélection
         CardView b_term_1 = (CardView) findViewById(R.id.button_terminus1);
         CardView b_term_2 = (CardView) findViewById(R.id.button_terminus2);
@@ -83,8 +88,6 @@ boolean isTram;
                 launchActivityShowStopTimes(choiceDirection);
             }
         });
-
-
     }
 
     // lance activity_show_stoptimes avec la direction n°choiceDiretion

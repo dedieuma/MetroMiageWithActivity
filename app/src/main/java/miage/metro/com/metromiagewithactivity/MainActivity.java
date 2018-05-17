@@ -33,32 +33,29 @@ public class MainActivity extends AppCompatActivity {
 
         // Création de l'activité suivante
         final Intent i = new Intent(this, activity_ligne_selection.class);
+        launchTram(i);
+        launchBus(i);
+        launchSharedPreferences();
+        launchMap();
 
-        // Au click sur le bouton tram, lancement de l'activité activity_ligne_selection
-        CardView but = (CardView) findViewById(R.id.button_tram);
-        but.setOnClickListener(new View.OnClickListener() {
+
+    }
+
+    private void launchMap() {
+        // Lancement de l'activity activity_map, qui permettra de visualiser les arrêts autour de soi
+        CardView but_map = (CardView) findViewById(R.id.button_map);
+        but_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle b = new Bundle();
-                b.putBoolean("isTram", true); // isTram servira à l'affichage, certaines choses diffèrent si on a choisi tram ou bus
-                i.putExtras(b);
-                startActivityForResult(i, 0);
+                //Toast.makeText(MainActivity.this, "TO DO", Toast.LENGTH_SHORT).show();
+                Intent intent_map = new Intent(getApplicationContext(), activity_map.class);
+                startActivityForResult(intent_map, 100);
+
             }
         });
+    }
 
-
-        // Au click sur le bouton tram, lancement de l'activité activity_ligne_selection avec isTram à faux
-        CardView but_bus = (CardView) findViewById(R.id.button_bus);
-        but_bus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle b = new Bundle();
-                b.putBoolean("isTram",false);
-                i.putExtras(b);
-                startActivityForResult(i, 1);
-            }
-        });
-
+    private void launchSharedPreferences() {
         // Lancement de l'activity Activity_Shared_Pref, listant les activités sauvegardés
         CardView but_saved = (CardView) findViewById(R.id.button_access_save_stops);
         but_saved.setOnClickListener(new View.OnClickListener() {
@@ -77,16 +74,32 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
-        // Lancement de l'activity activity_map, qui permettra de visualiser les arrêts autour de soi
-        CardView but_map = (CardView) findViewById(R.id.button_map);
-        but_map.setOnClickListener(new View.OnClickListener() {
+    private void launchBus(final Intent i) {
+        // Au click sur le bouton tram, lancement de l'activité activity_ligne_selection avec isTram à faux
+        CardView but_bus = (CardView) findViewById(R.id.button_bus);
+        but_bus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(MainActivity.this, "TO DO", Toast.LENGTH_SHORT).show();
-                Intent intent_map = new Intent(getApplicationContext(), activity_map.class);
-                startActivityForResult(intent_map, 100);
+                Bundle b = new Bundle();
+                b.putBoolean("isTram",false);
+                i.putExtras(b);
+                startActivityForResult(i, 1);
+            }
+        });
+    }
 
+    private void launchTram(final Intent i) {
+        // Au click sur le bouton tram, lancement de l'activité activity_ligne_selection
+        CardView but = (CardView) findViewById(R.id.button_tram);
+        but.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle b = new Bundle();
+                b.putBoolean("isTram", true); // isTram servira à l'affichage, certaines choses diffèrent si on a choisi tram ou bus
+                i.putExtras(b);
+                startActivityForResult(i, 0);
             }
         });
     }
