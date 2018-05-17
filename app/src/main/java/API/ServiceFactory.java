@@ -65,7 +65,7 @@ public class ServiceFactory {
     public List<Route> getBusLigne(List<Route> body) {
         List<Route> bus = new ArrayList<>();
         for (Route ligne:body) {
-            if (ligne.getMode().equals( "BUS")){
+            if (ligne.getType().equals( "CHRONO") || ligne.getType().equals( "PROXIMO") || ligne.getType().equals( "FLEXO")){
                 bus.add(ligne);
             }
         }

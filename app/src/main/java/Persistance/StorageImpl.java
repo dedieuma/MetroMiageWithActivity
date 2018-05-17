@@ -116,21 +116,6 @@ public class StorageImpl implements StorageService {
         }
 
     }
-/*
-    public boolean exists(Context context, Data_Arret_Route_Direction ard){
-        List<Data_Arret_Route_Direction> dataARD = restore(context);
-
-        if (dataARD == null) return false;
-
-        for (Data_Arret_Route_Direction localArd: dataARD) {
-            if (localArd.getNameDirection().equals(ard.getNameDirection())){
-                return true;
-            }
-        }
-
-        return false;
-
-    }*/
 
 
     public boolean isFavori(Context context, Data_Arret_Route_Direction ard){
@@ -139,8 +124,8 @@ public class StorageImpl implements StorageService {
         if (dataARD == null) return false;
         for (Data_Arret_Route_Direction localArd: dataARD) {
             if (localArd.getNameDirection().equals(ard.getNameDirection()) &&
-                    localArd.getRoute().equals(ard.getRoute()) &&
-                    localArd.getArret().equals(ard.getArret())){
+                    localArd.getRoute().getShortName().equals(ard.getRoute().getShortName()) &&
+                    localArd.getArret().getName().equals(ard.getArret().getName())){
                 return true;
             }
         }

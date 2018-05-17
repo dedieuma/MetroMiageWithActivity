@@ -173,8 +173,8 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
         StorageService storage = new StorageImpl();
         Data_Arret_Route_Direction ard = new Data_Arret_Route_Direction(currentArret, currentRoute, choiceDirection, nameDirection);
         if(storage.isFavori(getApplicationContext(), ard)) {
-            b_save.setBackgroundResource(R.drawable.cerclegrey);
-            b_save.setClickable(false);
+            //b_save.setBackgroundResource(R.drawable.cerclegrey);
+            //b_save.setClickable(false);
             flagSaveButtonVisibility = false;
         }
 
