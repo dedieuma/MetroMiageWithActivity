@@ -110,6 +110,7 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
         // Fab qui permet de supprimer les arrets enregistrés
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_clear);
         fab.setVisibility(View.VISIBLE);
+        fab.setImageResource(R.drawable.ic_delete_black_24dp);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
