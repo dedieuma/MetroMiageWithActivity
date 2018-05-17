@@ -190,4 +190,8 @@ public class activity_ligne_selection extends AppCompatActivity {
 
     }
 
+    private String getColor(int position, List<Route> listRoutes) {
+        return listRoutes.get(position).getColor();
+    }
+
 }
