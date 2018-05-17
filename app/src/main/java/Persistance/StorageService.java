@@ -18,4 +18,5 @@ public interface StorageService {
     List<Data_Arret_Route_Direction> clear(Context context);
     void add(Context context, Data_Arret_Route_Direction ard);
     boolean isFavori(Context context, Data_Arret_Route_Direction ard);
+    Data_Arret_Route_Direction delete(Context context, Data_Arret_Route_Direction ard);
 }

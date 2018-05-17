@@ -3,6 +3,7 @@ package miage.metro.com.metromiagewithactivity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,15 +14,22 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import API.Route;
+
 /**
  * Created by Andréas on 16/05/2018.
  */
 
 public class SelectionLigneAdapter extends ArrayAdapter<String>{
 
+    List<Route> routeList;
+    List<String> routesString;
 
-    public SelectionLigneAdapter(@NonNull Context context, List<String> resource) {
+
+    public SelectionLigneAdapter(@NonNull Context context, List<String> resource, List<Route> routeList) {
         super(context, 0, resource);
+        this.routeList = routeList;
+        this.routesString = resource;
     }
 
 
@@ -50,11 +58,18 @@ public class SelectionLigneAdapter extends ArrayAdapter<String>{
 
 
         //View view = super.getView(position, convertView, parent);
-        if (position % 2 == 0) {
+        /*if (position % 2 == 0) {
             convertView.setBackgroundColor(Color.LTGRAY);
         }else{
             convertView.setBackgroundColor(Color.WHITE);
         }
+        */
+
+        Route currentRoute = getRouteFromShortName(position, routesString, routeList);
+
+        convertView.setBackgroundColor(Color.parseColor("#"+currentRoute.getColor()));
+        viewHolder.nomLigne.setTextColor(Color.parseColor("#"+currentRoute.getTextColor()));
+        viewHolder.nomLigne.setTypeface(Typeface.DEFAULT_BOLD);
 
         return convertView;
 
@@ -67,6 +82,26 @@ public class SelectionLigneAdapter extends ArrayAdapter<String>{
 
     }
 
+
+    /***
+     * getRouteFromShortName
+     * retourne la route correspondante au string cliqué dans la listView
+     * @param position
+     * @param routes
+     * @param listRoutes
+     * @return
+     */
+    private Route getRouteFromShortName(int position, List<String> routes, List<Route> listRoutes) {
+        String myShortName = routes.get(position);
+        String[] evenShorter = myShortName.split(" ");
+        for(Route rourou : listRoutes){
+            if(rourou.getShortName().equals(evenShorter[1])){
+                return rourou;
+            }
+        }
+        return null;
+
+    }
 
 
 

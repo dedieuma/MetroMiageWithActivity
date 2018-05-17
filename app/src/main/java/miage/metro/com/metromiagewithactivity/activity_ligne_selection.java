@@ -81,7 +81,7 @@ public class activity_ligne_selection extends AppCompatActivity {
                         //ArrayAdapter aa = new ArrayAdapter(getBaseContext(), R.layout.listview_selection_lignes, routes);
 
                         // Adapter qui permet l'alternance des couleurs entre 2 lignes de la ListView
-                        SelectionLigneAdapter aa = new SelectionLigneAdapter(activity_ligne_selection.this, routes);
+                        SelectionLigneAdapter aa = new SelectionLigneAdapter(activity_ligne_selection.this, routes, listRoutes);
                         ligne_liste.setAdapter(aa);
 
                         // au clic sur une ligne du tableau, déclenchement de l'activité suivante : activity_arret_selection
@@ -94,7 +94,8 @@ public class activity_ligne_selection extends AppCompatActivity {
 
                                 Route routeChoisie;
                                 if(isTram){
-                                    routeChoisie = getRouteFromPosition(position, listRoutes);
+                                    //routeChoisie = getRouteFromPosition(position, listRoutes);
+                                    routeChoisie = getRouteFromShortName(position, routes, listRoutes);
                                 }else{
                                     routeChoisie = getRouteFromShortName(position, routes, listRoutes);
                                 }

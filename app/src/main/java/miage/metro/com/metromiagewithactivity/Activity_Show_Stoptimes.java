@@ -170,33 +170,44 @@ public class Activity_Show_Stoptimes extends AppCompatActivity {
         TextView lbl_map = (TextView) findViewById(R.id.lbl_save);
 
         //Si cet arrêt est déjà enregistré en favori
-        StorageService storage = new StorageImpl();
+        final StorageService storage = new StorageImpl();
         Data_Arret_Route_Direction ard = new Data_Arret_Route_Direction(currentArret, currentRoute, choiceDirection, nameDirection);
         if(storage.isFavori(getApplicationContext(), ard)) {
-            //b_save.setBackgroundResource(R.drawable.cerclegrey);
+            b_save.setBackgroundResource(R.drawable.cerclegrey);
             //b_save.setClickable(false);
             flagSaveButtonVisibility = false;
+
+
         }
 
         // si le bouton de sauvegarde doit etre activé
-        if (flagSaveButtonVisibility){
+
             b_save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    StorageService storage = new StorageImpl();
-                    // Stockage de l'ARD local
                     Data_Arret_Route_Direction ard = new Data_Arret_Route_Direction(currentArret, currentRoute, choiceDirection, nameDirection);
-                    storage.add(getApplicationContext(), ard);
-                    Toast.makeText(getApplicationContext(), "Arret enregistré !", Toast.LENGTH_SHORT).show();
-                    view.setBackgroundResource(R.drawable.cerclegrey);
-                    view.setClickable(false);
+                    if (flagSaveButtonVisibility){
+                        // Stockage de l'ARD local
+
+                        storage.add(getApplicationContext(), ard);
+                        Toast.makeText(getApplicationContext(), "Arret enregistré !", Toast.LENGTH_SHORT).show();
+                        view.setBackgroundResource(R.drawable.cerclegrey);
+                        //view.setClickable(false);
+                        flagSaveButtonVisibility = false;
+                    }else {
+
+                        storage.delete(getApplicationContext(), ard);
+                        Toast.makeText(getApplicationContext(), "Arret supprimé !", Toast.LENGTH_SHORT).show();
+                        view.setBackgroundResource(R.drawable.cerclepink);
+                        flagSaveButtonVisibility = true;
+                    }
                 }
             });
-
+/*
         }else{
             b_save.setBackgroundResource(R.drawable.cerclegrey);
         }
-
+*/
         // Bouton de retour au menu principal
         Button b_back_main = (Button) findViewById(R.id.button_back_main);
         b_back_main.setOnClickListener(new View.OnClickListener() {

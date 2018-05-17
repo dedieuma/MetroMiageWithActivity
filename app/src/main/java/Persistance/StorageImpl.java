@@ -118,6 +118,7 @@ public class StorageImpl implements StorageService {
     }
 
 
+
     public boolean isFavori(Context context, Data_Arret_Route_Direction ard){
         List<Data_Arret_Route_Direction> dataARD = restore(context);
 
@@ -131,5 +132,33 @@ public class StorageImpl implements StorageService {
         }
 
         return false;
+    }
+
+    @Override
+    public Data_Arret_Route_Direction delete(Context context, Data_Arret_Route_Direction ard) {
+        if(!isFavori(context, ard)){
+            return null;
+        }
+
+        List<Data_Arret_Route_Direction> dataARD = restore(context);
+
+        int i = 0;
+        while (i < dataARD.size() && !(dataARD.get(i).getNameDirection().equals(ard.getNameDirection()) &&
+                dataARD.get(i).getRoute().getShortName().equals(ard.getRoute().getShortName()) &&
+                dataARD.get(i).getArret().getName().equals(ard.getArret().getName()))){
+            i++;
+        }
+
+        Data_Arret_Route_Direction ardToReturn = dataARD.get(i);
+        dataARD.remove(i);
+
+        try {
+            store(context, dataARD);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return  ardToReturn;
+
     }
 }

@@ -68,7 +68,7 @@ public class activity_arret_selection extends AppCompatActivity {
                         treatment_message.setVisibility(View.INVISIBLE);
 
                         ListView ligne_liste = (ListView) findViewById(R.id.listview_selection_arret);
-                        SelectionLigneAdapter aa = new SelectionLigneAdapter(getApplicationContext(), arretsString);
+                        SelectionArretAdapter aa = new SelectionArretAdapter(getApplicationContext(), arretsString);
                         //ArrayAdapter aa = new ArrayAdapter(getBaseContext(), R.layout.listview_selection_lignes, arretsString);
                         ligne_liste.setAdapter(aa);
 
