@@ -36,20 +36,6 @@
         android:gravity="center"
         android:text="TextView" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_clear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/txt_traitement_ligne"
-        android:layout_marginLeft="38dp"
-        android:layout_marginStart="300dp"
-        android:layout_marginTop="175dp"
-        android:clickable="true"
-        android:visibility="gone"
-        app:srcCompat="@drawable/cerclepink" />
-
     <Button
         android:id="@+id/button_delete"
         android:layout_width="match_parent"

@@ -69,8 +69,6 @@ public class activity_ligne_selection extends AppCompatActivity {
                 if(response.isSuccessful()) {
 
                     txt_traitement_ligne.setVisibility(View.INVISIBLE);
-                    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_clear);
-                    fab.setVisibility(View.GONE);
                     final List<Route> listRoutes;
                     final List<String> routes;
 

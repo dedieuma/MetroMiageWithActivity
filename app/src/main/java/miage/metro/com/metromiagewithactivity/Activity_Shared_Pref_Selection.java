@@ -120,37 +120,19 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
         });
 
 
-        // Fab qui permet de supprimer les arrets enregistrés
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_clear);
+        // Bouton qui permet de supprimer les arrets enregistrés
         final Button btn_delete = (Button) findViewById(R.id.button_delete);
-        fab.setVisibility(View.VISIBLE);
         btn_delete.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         btn_delete.setVisibility(View.VISIBLE);
         btn_delete.setText("Supprimer des favoris");
-        fab.setImageResource(R.drawable.ic_delete_black_24dp);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //storageService.clear(getApplicationContext());
-                //finish();
-                if(!trashMode){
-                    trashMode = true;
-                    view.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.black_overlay)));
-                } else {
-                    trashMode = false;
-                    view.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
-                }
-            }
-        });
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //storageService.clear(getApplicationContext());
-                //finish();
                 if(!trashMode){
                     trashMode = true;
                     view.setBackgroundColor(getResources().getColor(R.color.black_overlay));
                     btn_delete.setText("Consulter mes favoris");
+                    Toast.makeText(getApplicationContext(), "Cliquez sur les favoris pour les supprimer", Toast.LENGTH_SHORT).show();
                 } else {
                     trashMode = false;
                     view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
