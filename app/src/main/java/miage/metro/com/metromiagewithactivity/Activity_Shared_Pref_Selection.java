@@ -2,6 +2,8 @@ package miage.metro.com.metromiagewithactivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +38,7 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
     List<Data_Arret_Route_Direction> dataARD;
     StorageService storageService;
     ListView ligne_liste;
+    boolean trashMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,7 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
 
         storageService = new StorageImpl();
         dataARD = storageService.restore(getApplicationContext());
-
+        trashMode = false;
         // Si on a rien sauvegardé
         // C'est un bout de code de sécurité, normalement on n'est pas censé entrer dedans car on vérifie
         // au préalable si on a stocké quelque chose ou non
@@ -77,8 +80,16 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
         ligne_liste.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
-
-                // Si on a cliqué sur ARDEffacer, on supprime la base
+                if(trashMode){
+                    storageService.delete(getApplicationContext(), dataARD.get(position));
+                    aa.remove(aa.getItem(position));
+                    if(aa.getCount() == 0){
+                        finish();
+                    } else {
+                        aa.notifyDataSetChanged();
+                    }
+                } else {
+                    // Si on a cliqué sur ARDEffacer, on supprime la base
                 /*if (position == dataARD.size()-1){
                     storageService.clear(getApplicationContext());
                     finish();
@@ -102,6 +113,7 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
                     i.putExtras(b);
                     startActivityForResult(i, 11);
                 }
+                }
 
             //}
         });
@@ -114,8 +126,15 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                storageService.clear(getApplicationContext());
-                finish();
+                //storageService.clear(getApplicationContext());
+                //finish();
+                if(!trashMode){
+                    trashMode = true;
+                    view.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.black_overlay)));
+                } else {
+                    trashMode = false;
+                    view.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+                }
             }
         });
 
