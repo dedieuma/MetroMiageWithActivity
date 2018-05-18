@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -121,7 +122,11 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
 
         // Fab qui permet de supprimer les arrets enregistrés
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_clear);
+        final Button btn_delete = (Button) findViewById(R.id.button_delete);
         fab.setVisibility(View.VISIBLE);
+        btn_delete.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        btn_delete.setVisibility(View.VISIBLE);
+        btn_delete.setText("Supprimer des favoris");
         fab.setImageResource(R.drawable.ic_delete_black_24dp);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +139,22 @@ public class Activity_Shared_Pref_Selection extends AppCompatActivity {
                 } else {
                     trashMode = false;
                     view.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+                }
+            }
+        });
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //storageService.clear(getApplicationContext());
+                //finish();
+                if(!trashMode){
+                    trashMode = true;
+                    view.setBackgroundColor(getResources().getColor(R.color.black_overlay));
+                    btn_delete.setText("Consulter mes favoris");
+                } else {
+                    trashMode = false;
+                    view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    btn_delete.setText("Supprimer des favoris");
                 }
             }
         });

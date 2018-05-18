@@ -50,4 +50,16 @@
         android:visibility="gone"
         app:srcCompat="@drawable/cerclepink" />
 
+    <Button
+        android:id="@+id/button_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_weight="1"
+        android:background="@drawable/back_button"
+        android:text="@string/back_to_main"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
 </RelativeLayout>
